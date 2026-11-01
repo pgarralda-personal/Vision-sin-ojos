@@ -95,111 +95,113 @@ input[type=text] { font:inherit; font-size:16px; padding:8px 10px; border-radius
 #stage .msg { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   color:#888; text-align:center; padding:24px; font-size:18px; cursor:default; }
 #stage .msg small { font-size:14px; margin-top:10px; color:#666; max-width:420px; }
+.top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.top select { font-size:14px; padding:4px 6px; flex:0 0 auto; }
 </style>
 </head>
 <body>
 <main id="welcome" hidden>
-  <h1>Visión sin ojos</h1>
-  <p class="sub">Practica en solitario con los ojos vendados y comprueba con números si aciertas más de lo que daría el azar.</p>
+  <div class="top"><h1 data-i="app"></h1><select class="langsel" aria-label="Idioma / Language"></select></div>
+  <p class="sub" data-i="tagline"></p>
   <section class="card">
-    <h2>¿Cómo te llamas?</h2>
-    <p class="hint" style="margin-bottom:12px">Tus resultados se guardan con tu nombre, solo en este navegador, para que puedas ver cómo evolucionas. Si varias personas usan este dispositivo, cada una puede tener su nombre.</p>
-    <div class="row" style="margin-top:0"><input type="text" id="w-name" maxlength="40" placeholder="Tu nombre" autocomplete="off">
-      <button class="sec" id="w-go" style="padding:10px 16px">Empezar</button></div>
+    <h2 data-i="askName"></h2>
+    <p class="hint" style="margin-bottom:12px" data-i="nameHint"></p>
+    <div class="row" style="margin-top:0"><input type="text" id="w-name" maxlength="40" data-i-ph="namePh" autocomplete="off">
+      <button class="sec" id="w-go" style="padding:10px 16px" data-i="start"></button></div>
   </section>
 </main>
 
 <main id="home" hidden>
-  <h1>Visión sin ojos</h1>
-  <p class="sub">Practica en solitario con los ojos vendados y comprueba con números si aciertas más de lo que daría el azar. Empieza por el nivel 1: el siguiente se desbloquea cuando superas el actual.</p>
+  <div class="top"><h1 data-i="app"></h1><select class="langsel" aria-label="Idioma / Language"></select></div>
+  <p class="sub"><span data-i="tagline"></span> <span data-i="startHint"></span></p>
 
   <section class="card">
-    <div class="row" style="margin-top:0"><label for="p-sel"><b>Practicante</b></label><select id="p-sel"></select></div>
+    <div class="row" style="margin-top:0"><label for="p-sel"><b data-i="person"></b></label><select id="p-sel"></select></div>
     <div class="btnrow">
-      <button class="sec" id="p-new">+ Otra persona</button>
-      <button class="sec" id="p-ren">Cambiar nombre</button>
-      <button class="sec danger" id="p-del">Borrar persona</button>
+      <button class="sec" id="p-new" data-i="pNew"></button>
+      <button class="sec" id="p-ren" data-i="pRen"></button>
+      <button class="sec danger" id="p-del" data-i="pDel"></button>
     </div>
-    <p class="hint">Cada persona tiene sus propios niveles y resultados, guardados solo en este navegador.</p>
+    <p class="hint" data-i="pHint"></p>
   </section>
 
   <section class="card">
-    <h2>Nivel</h2>
+    <h2 data-i="level"></h2>
     <div id="levels"></div>
     <div class="lvlinfo" id="lvlinfo"></div>
   </section>
 
   <section class="card">
-    <h2>Sesión</h2>
-    <div class="row" style="margin-top:0"><label for="s-n">Ensayos (decídelo antes)</label>
+    <h2 data-i="session"></h2>
+    <div class="row" style="margin-top:0"><label for="s-n" data-i="trialsLabel"></label>
       <select id="s-n">
         <option>10</option><option>20</option><option>25</option><option>50</option><option>100</option>
       </select></div>
-    <div class="row"><label for="s-mode">Pantalla</label>
+    <div class="row"><label for="s-mode" data-i="screen"></label>
       <select id="s-mode">
-        <option value="show">Mostrar el objetivo</option>
-        <option value="control">Control: no mostrar nada</option>
+        <option value="show" data-i="modeShow"></option>
+        <option value="control" data-i="modeControl"></option>
       </select></div>
-    <p class="hint">En una sesión de control la pantalla no muestra el objetivo y solo puedes adivinar. Sirve para ver cómo se ve el azar y compararlo. No cuenta para pasar de nivel.</p>
-    <div class="row"><label for="s-gate">Pasar de nivel solo al superarlo</label><input type="checkbox" id="s-gate" checked></div>
-    <div class="row" id="row-bar"><label for="s-bar">Exigencia para superar un nivel</label>
+    <p class="hint" data-i="controlHint"></p>
+    <div class="row"><label for="s-gate" data-i="gate"></label><input type="checkbox" id="s-gate" checked></div>
+    <div class="row" id="row-bar"><label for="s-bar" data-i="bar"></label>
       <select id="s-bar">
-        <option value="0.05">Normal (5 %)</option>
-        <option value="0.01" selected>Alta (1 %)</option>
-        <option value="0.001">Muy alta (0,1 %)</option>
+        <option value="0.05" data-i="bar05"></option>
+        <option value="0.01" data-i="bar01" selected></option>
+        <option value="0.001" data-i="bar001"></option>
       </select></div>
-    <p class="hint" id="hint-bar">Un nivel se supera con una sesión completa de 20 ensayos o más cuyo resultado tenga como mucho esa probabilidad de salir por pura suerte.</p>
-    <div class="row"><label for="s-fb">Decirme si acerté después de cada ensayo</label><input type="checkbox" id="s-fb" checked></div>
-    <div class="row" id="row-eq"><label for="s-eq">Colores con el mismo brillo</label><input type="checkbox" id="s-eq" checked></div>
-    <p class="hint" id="hint-eq">Todos los colores con la misma luminosidad.</p>
-    <div class="row"><label for="s-voice">Responder hablando</label><input type="checkbox" id="s-voice"></div>
+    <p class="hint" id="hint-bar" data-i="barHint"></p>
+    <div class="row"><label for="s-fb" data-i="fb"></label><input type="checkbox" id="s-fb" checked></div>
+    <div class="row" id="row-eq"><label for="s-eq" data-i="eq"></label><input type="checkbox" id="s-eq" checked></div>
+    <p class="hint" id="hint-eq" data-i="eqHint"></p>
+    <div class="row"><label for="s-voice" data-i="voice"></label><input type="checkbox" id="s-voice"></div>
     <p class="hint" id="hint-voice"></p>
-    <button class="go" id="start">Empezar</button>
+    <button class="go" id="start" data-i="start"></button>
   </section>
 
   <section class="card">
-    <h2>Cómo responder con los ojos vendados</h2>
+    <h2 data-i="howTitle"></h2>
     <ul>
-      <li><b>Teclado:</b> teclas <kbd>1</kbd> a <kbd id="kmax">2</kbd><span id="letterkeys"></span>. <kbd>R</kbd> repite las opciones. <kbd>Esc</kbd> termina.</li>
-      <li><b>Pantalla táctil:</b> toca la zona de la respuesta (ver dibujo). Mantén el dedo 2 segundos para terminar.</li>
-      <li><b>Voz:</b> di el nombre (“rojo”, “estrella roja”, “sol”…) o el número de la opción.</li>
+      <li id="how-keys"></li>
+      <li data-i="howTouch"></li>
+      <li data-i="howVoice"></li>
     </ul>
     <div class="zones" id="zones"></div>
-    <p class="hint">Cada vez que aparece un objetivo suena un pitido. Antes de empezar, la app lee las opciones en voz alta.</p>
+    <p class="hint" data-i="howHint"></p>
   </section>
 
   <section class="card">
-    <h2>Consejos para las sesiones</h2>
+    <h2 data-i="tipsTitle"></h2>
     <ol>
-      <li><b>Antifaz opaco</b> que no deje pasar la luz. Si quieres, también puedes poner la pantalla bajo una tela o dentro de una caja y meter solo las manos.</li>
-      <li><b>Decide el número de ensayos antes de empezar.</b> La app guarda todos los ensayos, también los de sesiones que no terminas.</li>
-      <li><b>Mira el total acumulado</b> de cada nivel: con más ensayos, el porcentaje es más estable que en una sola sesión.</li>
+      <li data-i="tip1"></li>
+      <li data-i="tip2"></li>
+      <li data-i="tip3"></li>
     </ol>
   </section>
 
   <section class="card evo">
-    <h2>Tu evolución</h2>
-    <div class="row" style="margin-top:0"><label for="e-lvl">Nivel</label><select id="e-lvl"></select></div>
+    <h2 data-i="evoTitle"></h2>
+    <div class="row" style="margin-top:0"><label for="e-lvl" data-i="level"></label><select id="e-lvl"></select></div>
     <div id="evo"></div>
   </section>
 
   <section class="card">
-    <h2>Resultados acumulados</h2>
+    <h2 data-i="totalsTitle"></h2>
     <div id="totals"></div>
   </section>
 
   <section class="card">
-    <h2>Historial de sesiones</h2>
+    <h2 data-i="histTitle"></h2>
     <div id="history"></div>
     <div class="btnrow">
-      <button class="sec" id="export">Exportar ensayos (CSV)</button>
-      <button class="sec danger" id="reset">Borrar historial</button>
+      <button class="sec" id="export" data-i="export"></button>
+      <button class="sec danger" id="reset" data-i="reset"></button>
     </div>
   </section>
 </main>
 
 <main id="result" hidden>
-  <h1>Resultado de la sesión</h1>
+  <h1 data-i="resTitle"></h1>
   <p class="sub" id="r-sub"></p>
   <section class="card">
     <div class="big" id="r-big"></div>
@@ -209,105 +211,1848 @@ input[type=text] { font:inherit; font-size:16px; padding:8px 10px; border-radius
     <div class="verdict" id="r-gate" hidden></div>
   </section>
   <section class="card">
-    <h2>Ensayos</h2>
+    <h2 data-i="trials"></h2>
     <div class="tablewrap"><table id="r-trials"></table></div>
   </section>
   <div class="btnrow">
-    <button class="sec" id="again" style="flex:1;padding:14px">Repetir nivel</button>
-    <button class="sec" id="next" style="flex:1;padding:14px">Siguiente nivel →</button>
+    <button class="sec" id="again" style="flex:1;padding:14px" data-i="again"></button>
+    <button class="sec" id="next" style="flex:1;padding:14px"></button>
   </div>
-  <button class="go" id="back">Volver</button>
+  <button class="go" id="back" data-i="back"></button>
 </main>
 
 <div id="stage" hidden></div>
 
+<!-- All texts, item names and voice-answer words, per language. tools/make_audio.py reads this block to record the voice clips. -->
+<script type="application/json" id="i18n">
+{
+"es": {
+ "name": "Español",
+ "locale": "es-ES",
+ "dec": ",",
+ "pct": " %",
+ "times": "por",
+ "levelSay": "Nivel {n}: {name}.",
+ "speech": {
+  "ready": "Ponte el antifaz. Cuando estés listo, pulsa espacio o toca la pantalla.",
+  "options": "Opciones:",
+  "begin": "Empezamos.",
+  "yes": "Sí,",
+  "no": "No, era",
+  "part_forma": "Acertaste la forma.",
+  "part_color": "Acertaste el color.",
+  "part_letra": "Acertaste la letra.",
+  "end": "Sesión terminada.",
+  "novoice": "El reconocimiento de voz no está disponible. Usa el teclado o toca la pantalla.",
+  "hitsOf": "aciertos de",
+  "hitOf": "acierto de",
+  "passed": "Nivel superado.",
+  "repeat": "Repite el nivel.",
+  "few": "Pocos ensayos todavía.",
+  "above": "Por encima del azar.",
+  "within": "Dentro de lo esperable por azar."
+ },
+ "items": {
+  "blanco": {
+   "n": "blanco",
+   "w": [
+    "blanco",
+    "blanca"
+   ]
+  },
+  "negro": {
+   "n": "negro",
+   "w": [
+    "negro",
+    "negra"
+   ]
+  },
+  "rojo": {
+   "n": "rojo",
+   "w": [
+    "rojo",
+    "roja",
+    "rojas"
+   ]
+  },
+  "azul": {
+   "n": "azul",
+   "w": [
+    "azul",
+    "azules"
+   ]
+  },
+  "verde": {
+   "n": "verde",
+   "w": [
+    "verde",
+    "verdes"
+   ]
+  },
+  "amarillo": {
+   "n": "amarillo",
+   "w": [
+    "amarillo",
+    "amarilla",
+    "amarillas"
+   ]
+  },
+  "naranja": {
+   "n": "naranja",
+   "w": [
+    "naranja",
+    "naranjas"
+   ]
+  },
+  "morado": {
+   "n": "morado",
+   "w": [
+    "morado",
+    "morada",
+    "moradas",
+    "violeta",
+    "lila",
+    "púrpura"
+   ]
+  },
+  "circulo": {
+   "n": "círculo",
+   "w": [
+    "círculo",
+    "circular",
+    "redondo",
+    "redonda"
+   ]
+  },
+  "cruz": {
+   "n": "cruz",
+   "w": [
+    "cruz",
+    "más"
+   ]
+  },
+  "ondas": {
+   "n": "ondas",
+   "w": [
+    "ondas",
+    "onda",
+    "olas",
+    "ola",
+    "ondulado",
+    "ondulada",
+    "onduladas",
+    "líneas"
+   ]
+  },
+  "cuadrado": {
+   "n": "cuadrado",
+   "w": [
+    "cuadrado",
+    "cuadro"
+   ]
+  },
+  "estrella": {
+   "n": "estrella",
+   "w": [
+    "estrella"
+   ]
+  },
+  "circulo-rojo": {
+   "n": "círculo rojo"
+  },
+  "circulo-azul": {
+   "n": "círculo azul"
+  },
+  "cruz-rojo": {
+   "n": "cruz roja"
+  },
+  "cruz-azul": {
+   "n": "cruz azul"
+  },
+  "ondas-rojo": {
+   "n": "ondas rojas"
+  },
+  "ondas-azul": {
+   "n": "ondas azules"
+  },
+  "A": {
+   "n": "A",
+   "s": "a",
+   "w": [
+    "a"
+   ]
+  },
+  "O": {
+   "n": "O",
+   "s": "o",
+   "w": [
+    "o"
+   ]
+  },
+  "T": {
+   "n": "T",
+   "s": "te",
+   "w": [
+    "te",
+    "t"
+   ]
+  },
+  "X": {
+   "n": "X",
+   "s": "equis",
+   "w": [
+    "equis",
+    "x"
+   ]
+  },
+  "O-rojo": {
+   "n": "O roja",
+   "s": "o roja"
+  },
+  "O-azul": {
+   "n": "O azul",
+   "s": "o azul"
+  },
+  "X-rojo": {
+   "n": "X roja",
+   "s": "equis roja"
+  },
+  "X-azul": {
+   "n": "X azul",
+   "s": "equis azul"
+  }
+ },
+ "words": {
+  "SOL": {
+   "s": "sol",
+   "w": [
+    "sol"
+   ]
+  },
+  "MAR": {
+   "s": "mar",
+   "w": [
+    "mar"
+   ]
+  },
+  "PAN": {
+   "s": "pan",
+   "w": [
+    "pan"
+   ]
+  },
+  "LUZ": {
+   "s": "luz",
+   "w": [
+    "luz"
+   ]
+  }
+ },
+ "numbers": [
+  [
+   "1",
+   "uno",
+   "una"
+  ],
+  [
+   "2",
+   "dos"
+  ],
+  [
+   "3",
+   "tres"
+  ],
+  [
+   "4",
+   "cuatro"
+  ],
+  [
+   "5",
+   "cinco"
+  ],
+  [
+   "6",
+   "seis"
+  ]
+ ],
+ "groups": {
+  "colors": "Colores",
+  "zener": "Formas (cartas Zener)",
+  "zc": "Formas y colores",
+  "letters": "Letras",
+  "lc": "Letras y colores",
+  "words": "Palabras"
+ },
+ "levels": {
+  "bn": {
+   "name": "Blanco o negro",
+   "note": "Máximo contraste. El nivel para empezar."
+  },
+  "c2": {
+   "name": "2 colores"
+  },
+  "c3": {
+   "name": "3 colores"
+  },
+  "c4": {
+   "name": "4 colores"
+  },
+  "c6": {
+   "name": "6 colores",
+   "note": "Con 6 opciones responder hablando es lo más cómodo."
+  },
+  "z2": {
+   "name": "2 símbolos Zener",
+   "note": "Símbolos de las cartas Zener, blancos sobre negro y todos con la misma superficie."
+  },
+  "z3": {
+   "name": "3 símbolos Zener"
+  },
+  "z5": {
+   "name": "5 cartas Zener",
+   "note": "La baraja Zener completa, como en los experimentos clásicos: el azar es 1 de cada 5 (20 %)."
+  },
+  "zc4": {
+   "name": "2 Zener × 2 colores",
+   "note": "Hay que acertar las dos cosas. La app también cuenta por separado si acertaste la forma o el color."
+  },
+  "zc6": {
+   "name": "3 Zener × 2 colores"
+  },
+  "l2": {
+   "name": "2 letras",
+   "note": "Puedes responder pulsando la propia letra en el teclado."
+  },
+  "l4": {
+   "name": "4 letras"
+  },
+  "lc4": {
+   "name": "2 letras × 2 colores"
+  },
+  "p2": {
+   "name": "2 palabras",
+   "note": "Palabras cortas de 3 letras. Responder hablando funciona muy bien aquí."
+  },
+  "p4": {
+   "name": "4 palabras"
+  }
+ },
+ "ui": {
+  "app": "Visión sin ojos",
+  "langLabel": "Idioma",
+  "tagline": "Practica en solitario con los ojos vendados y comprueba con números si aciertas más de lo que daría el azar.",
+  "startHint": "Empieza por el nivel 1: el siguiente se desbloquea cuando superas el actual.",
+  "askName": "¿Cómo te llamas?",
+  "nameHint": "Tus resultados se guardan con tu nombre, solo en este navegador, para que puedas ver cómo evolucionas. Si varias personas usan este dispositivo, cada una puede tener su nombre.",
+  "namePh": "Tu nombre",
+  "start": "Empezar",
+  "person": "Practicante",
+  "pNew": "+ Otra persona",
+  "pRen": "Cambiar nombre",
+  "pDel": "Borrar persona",
+  "pHint": "Cada persona tiene sus propios niveles y resultados, guardados solo en este navegador.",
+  "level": "Nivel",
+  "session": "Sesión",
+  "trialsLabel": "Ensayos (decídelo antes)",
+  "screen": "Pantalla",
+  "modeShow": "Mostrar el objetivo",
+  "modeControl": "Control: no mostrar nada",
+  "controlHint": "En una sesión de control la pantalla no muestra el objetivo y solo puedes adivinar. Sirve para ver cómo se ve el azar y compararlo. No cuenta para pasar de nivel.",
+  "gate": "Pasar de nivel solo al superarlo",
+  "bar": "Exigencia para superar un nivel",
+  "bar05": "Normal (5 %)",
+  "bar01": "Alta (1 %)",
+  "bar001": "Muy alta (0,1 %)",
+  "barHint": "Un nivel se supera con una sesión completa de 20 ensayos o más cuyo resultado tenga como mucho esa probabilidad de salir por pura suerte.",
+  "fb": "Decirme si acerté después de cada ensayo",
+  "eq": "Colores con el mismo brillo",
+  "eqHint": "Todos los colores con la misma luminosidad.",
+  "voice": "Responder hablando",
+  "voiceNo": "Este navegador no reconoce voz. Prueba en Chrome o Safari.",
+  "voiceHint": "Usa el reconocimiento de voz del navegador (puede necesitar internet y pedir permiso de micrófono).",
+  "howTitle": "Cómo responder con los ojos vendados",
+  "howKeys": "<b>Teclado:</b> teclas <kbd>1</kbd> a <kbd>{k}</kbd>{letters}. <kbd>R</kbd> repite las opciones. <kbd>Esc</kbd> termina.",
+  "howLetters": " o las letras {keys}",
+  "howTouch": "<b>Pantalla táctil:</b> toca la zona de la respuesta (ver dibujo). Mantén el dedo 2 segundos para terminar.",
+  "howVoice": "<b>Voz:</b> di el nombre (“rojo”, “cruz azul”, “sol”…) o el número de la opción.",
+  "howHint": "Cada vez que aparece un objetivo suena un pitido. Antes de empezar, la app lee las opciones en voz alta.",
+  "tipsTitle": "Consejos para las sesiones",
+  "tip1": "<b>Antifaz opaco</b> que no deje pasar la luz. Si quieres, también puedes poner la pantalla bajo una tela o dentro de una caja y meter solo las manos.",
+  "tip2": "<b>Decide el número de ensayos antes de empezar.</b> La app guarda todos los ensayos, también los de sesiones que no terminas.",
+  "tip3": "<b>Mira el total acumulado</b> de cada nivel: con más ensayos, el porcentaje es más estable que en una sola sesión.",
+  "evoTitle": "Tu evolución",
+  "totalsTitle": "Resultados acumulados",
+  "histTitle": "Historial de sesiones",
+  "export": "Exportar ensayos (CSV)",
+  "reset": "Borrar historial",
+  "resTitle": "Resultado de la sesión",
+  "trials": "Ensayos",
+  "again": "Repetir nivel",
+  "back": "Volver",
+  "levelN": "Nivel {n}: {name}",
+  "stageReady": "Ponte el antifaz.<br>Cuando estés listo, pulsa espacio o toca la pantalla.",
+  "stageEnd": "Esc o mantener pulsado 2 s para terminar.",
+  "optionsText": "Opciones: {list}.",
+  "locked": "🔒 Bloqueado",
+  "passed": "✓ Superado",
+  "passedLow": "✓ superado",
+  "lvlStat": "{pct} en {n} (azar {c})",
+  "chanceCap": "Azar {c}",
+  "gateLine": "Para superarlo: <b>{need} aciertos o más de {n}</b> ({pct}; el azar es {c}). Adivinando, eso sale por suerte menos de {bar} veces.",
+  "odds": "1 de cada {n}",
+  "modeShowShort": "objetivo visible",
+  "modeControlShort": "control (sin objetivo)",
+  "endedEarly": "terminada antes ({d} de {n})",
+  "xOfY": "{a} de {b}",
+  "detail": "Aciertos: <b>{pct}</b> · Azar: {c} (unos {e} aciertos esperados)<br>Probabilidad de acertar tanto o más por pura suerte: <b>{p}</b>",
+  "needHint": "Con {n} ensayos harían falta {need} aciertos o más para que sea significativo (p &lt; 0,05).",
+  "noTrials": "No hubo ensayos.",
+  "separately": "Por separado:",
+  "dimLine": "{dim}: {h} de {n} ({pct}, azar {c}) · p {p}",
+  "dim_forma": "Forma",
+  "dim_color": "Color",
+  "dim_letra": "Letra",
+  "thTarget": "Objetivo",
+  "thAnswer": "Respuesta",
+  "thTime": "Tiempo",
+  "gControl": "Las sesiones de control no cuentan para pasar de nivel.",
+  "gEarly": "La sesión terminó antes de tiempo, así que no cuenta para pasar de nivel.",
+  "gPassed": "✓ ¡Nivel superado!",
+  "gUnlock": "Se desbloquea el nivel {n}: {name}.",
+  "gRepeat": "<b>Repite el nivel.</b> Para superarlo necesitas {need} aciertos o más de {n}; esta vez tuviste {h}.",
+  "nextBtn": "Nivel {n}: {name} →",
+  "vFew": "Pocos ensayos todavía: con más ensayos el porcentaje es más estable.",
+  "vAbove": "Por encima del azar: un resultado así o mejor sale por azar {odds} veces.",
+  "vLess1000": "menos de 1 de cada 1000",
+  "vApprox": "aproximadamente 1 de cada {n}",
+  "vWithin": "Dentro de lo esperable por azar.",
+  "rowShow": "Objetivo visible",
+  "rowControl": "Control",
+  "total": "total",
+  "thGroup": "Grupo",
+  "thTrials": "Ensayos",
+  "thHits": "Aciertos",
+  "thChance": "Azar",
+  "thDate": "Fecha",
+  "thLevel": "Nivel",
+  "pHintTable": "<b>p</b> = probabilidad de acertar tanto o más por pura suerte. Por debajo de 0,05 se considera significativo.",
+  "approx": " * aproximado (mezcla niveles con distinto número de opciones).",
+  "allLevels": "Todos los niveles ({n} ensayos, {pct}, azar {c}):",
+  "noTrialsYet": "Aún no hay ensayos.",
+  "pillControl": "control",
+  "pillIncomplete": "incompleta",
+  "noSessions": "Aún no hay sesiones.",
+  "evoEmpty": "Aquí verás tu evolución cuando completes alguna sesión.",
+  "evoChance": "azar {c}",
+  "evoGoal": "meta {g}",
+  "evoTip": "Sesión {i} · {date}",
+  "evoTipPassed": " · nivel superado",
+  "evoTipIncomplete": " · incompleta",
+  "trend": "Primeras {h} sesiones: <b>{a}</b> · Últimas {h}: <b>{b}</b> · Azar: {c}",
+  "evoAria": "Porcentaje de aciertos por sesión en el nivel {n}",
+  "evoHint": "Cada punto es una sesión (eje horizontal: número de sesión). Pasa el ratón o toca un punto para ver el detalle. ✓ = nivel superado.",
+  "askOther": "Nombre de la otra persona:",
+  "askRename": "Nuevo nombre:",
+  "confirmDel": "¿Borrar a {name} y todos sus resultados? No se puede deshacer.",
+  "confirmReset": "¿Borrar todo el historial de {name}? También vuelve a bloquear los niveles. No se puede deshacer."
+ }
+},
+"en": {
+ "name": "English",
+ "locale": "en-US",
+ "dec": ".",
+ "pct": "%",
+ "times": "and",
+ "levelSay": "Level {n}: {name}.",
+ "speech": {
+  "ready": "Put on your blindfold. When you're ready, press space or tap the screen.",
+  "options": "Options:",
+  "begin": "Let's begin.",
+  "yes": "Yes,",
+  "no": "No, it was",
+  "part_forma": "You got the shape.",
+  "part_color": "You got the color.",
+  "part_letra": "You got the letter.",
+  "end": "Session ended.",
+  "novoice": "Speech recognition isn't available. Use the keyboard or tap the screen.",
+  "hitsOf": "hits out of",
+  "hitOf": "hit out of",
+  "passed": "Level passed.",
+  "repeat": "Repeat the level.",
+  "few": "Few trials so far.",
+  "above": "Above chance.",
+  "within": "Within chance."
+ },
+ "items": {
+  "blanco": {
+   "n": "white",
+   "w": [
+    "white"
+   ]
+  },
+  "negro": {
+   "n": "black",
+   "w": [
+    "black"
+   ]
+  },
+  "rojo": {
+   "n": "red",
+   "w": [
+    "red",
+    "read"
+   ]
+  },
+  "azul": {
+   "n": "blue",
+   "w": [
+    "blue",
+    "blew"
+   ]
+  },
+  "verde": {
+   "n": "green",
+   "w": [
+    "green"
+   ]
+  },
+  "amarillo": {
+   "n": "yellow",
+   "w": [
+    "yellow"
+   ]
+  },
+  "naranja": {
+   "n": "orange",
+   "w": [
+    "orange"
+   ]
+  },
+  "morado": {
+   "n": "purple",
+   "w": [
+    "purple",
+    "violet",
+    "lilac"
+   ]
+  },
+  "circulo": {
+   "n": "circle",
+   "w": [
+    "circle",
+    "round",
+    "ring"
+   ]
+  },
+  "cruz": {
+   "n": "cross",
+   "w": [
+    "cross",
+    "plus"
+   ]
+  },
+  "ondas": {
+   "n": "waves",
+   "w": [
+    "waves",
+    "wave",
+    "wavy",
+    "lines"
+   ]
+  },
+  "cuadrado": {
+   "n": "square",
+   "w": [
+    "square",
+    "box"
+   ]
+  },
+  "estrella": {
+   "n": "star",
+   "w": [
+    "star"
+   ]
+  },
+  "circulo-rojo": {
+   "n": "red circle"
+  },
+  "circulo-azul": {
+   "n": "blue circle"
+  },
+  "cruz-rojo": {
+   "n": "red cross"
+  },
+  "cruz-azul": {
+   "n": "blue cross"
+  },
+  "ondas-rojo": {
+   "n": "red waves"
+  },
+  "ondas-azul": {
+   "n": "blue waves"
+  },
+  "A": {
+   "n": "A",
+   "w": [
+    "a",
+    "ay",
+    "eh",
+    "hey"
+   ]
+  },
+  "O": {
+   "n": "O",
+   "w": [
+    "o",
+    "oh",
+    "owe"
+   ]
+  },
+  "T": {
+   "n": "T",
+   "w": [
+    "t",
+    "tee",
+    "tea"
+   ]
+  },
+  "X": {
+   "n": "X",
+   "w": [
+    "x",
+    "ex",
+    "eggs"
+   ]
+  },
+  "O-rojo": {
+   "n": "red O"
+  },
+  "O-azul": {
+   "n": "blue O"
+  },
+  "X-rojo": {
+   "n": "red X"
+  },
+  "X-azul": {
+   "n": "blue X"
+  }
+ },
+ "words": {
+  "SUN": {
+   "s": "sun",
+   "w": [
+    "sun",
+    "son"
+   ]
+  },
+  "SEA": {
+   "s": "sea",
+   "w": [
+    "sea",
+    "see"
+   ]
+  },
+  "CAT": {
+   "s": "cat",
+   "w": [
+    "cat"
+   ]
+  },
+  "BOX": {
+   "s": "box",
+   "w": [
+    "box"
+   ]
+  }
+ },
+ "numbers": [
+  [
+   "1",
+   "one",
+   "won"
+  ],
+  [
+   "2",
+   "two",
+   "to",
+   "too"
+  ],
+  [
+   "3",
+   "three",
+   "tree"
+  ],
+  [
+   "4",
+   "four",
+   "for"
+  ],
+  [
+   "5",
+   "five"
+  ],
+  [
+   "6",
+   "six"
+  ]
+ ],
+ "groups": {
+  "colors": "Colors",
+  "zener": "Shapes (Zener cards)",
+  "zc": "Shapes and colors",
+  "letters": "Letters",
+  "lc": "Letters and colors",
+  "words": "Words"
+ },
+ "levels": {
+  "bn": {
+   "name": "White or black",
+   "note": "Maximum contrast. The level to start with."
+  },
+  "c2": {
+   "name": "2 colors"
+  },
+  "c3": {
+   "name": "3 colors"
+  },
+  "c4": {
+   "name": "4 colors"
+  },
+  "c6": {
+   "name": "6 colors",
+   "note": "With 6 options, answering by voice is easiest."
+  },
+  "z2": {
+   "name": "2 Zener symbols",
+   "note": "Zener card symbols, white on black, all with the same area."
+  },
+  "z3": {
+   "name": "3 Zener symbols"
+  },
+  "z5": {
+   "name": "5 Zener cards",
+   "note": "The full Zener deck, as in the classic experiments: chance is 1 in 5 (20%)."
+  },
+  "zc4": {
+   "name": "2 Zener × 2 colors",
+   "note": "Both must be right. The app also counts separately whether you got the shape or the color."
+  },
+  "zc6": {
+   "name": "3 Zener × 2 colors"
+  },
+  "l2": {
+   "name": "2 letters",
+   "note": "You can also answer by pressing the letter itself on the keyboard."
+  },
+  "l4": {
+   "name": "4 letters"
+  },
+  "lc4": {
+   "name": "2 letters × 2 colors"
+  },
+  "p2": {
+   "name": "2 words",
+   "note": "Short 3-letter words. Answering by voice works very well here."
+  },
+  "p4": {
+   "name": "4 words"
+  }
+ },
+ "ui": {
+  "app": "Vision Without Eyes",
+  "langLabel": "Language",
+  "tagline": "Practice on your own, blindfolded, and check with numbers whether you get more hits than chance would give.",
+  "startHint": "Start with level 1: the next one unlocks when you pass the current one.",
+  "askName": "What's your name?",
+  "nameHint": "Your results are saved under your name, only in this browser, so you can see how you progress. If several people use this device, each can have their own name.",
+  "namePh": "Your name",
+  "start": "Start",
+  "person": "Person",
+  "pNew": "+ Another person",
+  "pRen": "Rename",
+  "pDel": "Delete person",
+  "pHint": "Each person has their own levels and results, saved only in this browser.",
+  "level": "Level",
+  "session": "Session",
+  "trialsLabel": "Trials (decide beforehand)",
+  "screen": "Screen",
+  "modeShow": "Show the target",
+  "modeControl": "Control: show nothing",
+  "controlHint": "In a control session the screen doesn't show the target and you can only guess. It shows what chance looks like, for comparison. It doesn't count toward passing a level.",
+  "gate": "Move up only after passing a level",
+  "bar": "Bar for passing a level",
+  "bar05": "Normal (5%)",
+  "bar01": "High (1%)",
+  "bar001": "Very high (0.1%)",
+  "barHint": "A level is passed with a complete session of 20 or more trials whose result has at most that probability of happening by pure luck.",
+  "fb": "Tell me after each trial whether I got it right",
+  "eq": "Colors with equal brightness",
+  "eqHint": "All colors with the same luminance.",
+  "voice": "Answer by speaking",
+  "voiceNo": "This browser doesn't recognize speech. Try Chrome or Safari.",
+  "voiceHint": "Uses the browser's speech recognition (may need internet and ask for microphone permission).",
+  "howTitle": "How to answer blindfolded",
+  "howKeys": "<b>Keyboard:</b> keys <kbd>1</kbd> to <kbd>{k}</kbd>{letters}. <kbd>R</kbd> repeats the options. <kbd>Esc</kbd> ends.",
+  "howLetters": " or the letters {keys}",
+  "howTouch": "<b>Touch screen:</b> tap the answer's zone (see drawing). Hold your finger down for 2 seconds to end.",
+  "howVoice": "<b>Voice:</b> say the name (“red”, “blue cross”, “sun”…) or the option's number.",
+  "howHint": "A beep sounds each time a target appears. Before starting, the app reads the options aloud.",
+  "tipsTitle": "Tips for sessions",
+  "tip1": "<b>An opaque blindfold</b> that lets no light through. If you like, you can also put the screen under a cloth or inside a box and reach in with just your hands.",
+  "tip2": "<b>Decide the number of trials before you start.</b> The app saves every trial, including those from sessions you don't finish.",
+  "tip3": "<b>Look at the running total</b> for each level: with more trials the percentage is steadier than in a single session.",
+  "evoTitle": "Your progress",
+  "totalsTitle": "Overall results",
+  "histTitle": "Session history",
+  "export": "Export trials (CSV)",
+  "reset": "Delete history",
+  "resTitle": "Session result",
+  "trials": "Trials",
+  "again": "Repeat level",
+  "back": "Back",
+  "levelN": "Level {n}: {name}",
+  "stageReady": "Put on your blindfold.<br>When you're ready, press space or tap the screen.",
+  "stageEnd": "Esc or hold for 2 s to end.",
+  "optionsText": "Options: {list}.",
+  "locked": "🔒 Locked",
+  "passed": "✓ Passed",
+  "passedLow": "✓ passed",
+  "lvlStat": "{pct} in {n} (chance {c})",
+  "chanceCap": "Chance {c}",
+  "gateLine": "To pass: <b>{need} or more hits out of {n}</b> ({pct}; chance is {c}). By guessing, that happens by luck less than {bar} times.",
+  "odds": "1 in {n}",
+  "modeShowShort": "target visible",
+  "modeControlShort": "control (no target)",
+  "endedEarly": "ended early ({d} of {n})",
+  "xOfY": "{a} of {b}",
+  "detail": "Hits: <b>{pct}</b> · Chance: {c} (about {e} hits expected)<br>Probability of getting this many or more by pure luck: <b>{p}</b>",
+  "needHint": "With {n} trials you'd need {need} or more hits for it to be significant (p &lt; 0.05).",
+  "noTrials": "No trials.",
+  "separately": "Separately:",
+  "dimLine": "{dim}: {h} of {n} ({pct}, chance {c}) · p {p}",
+  "dim_forma": "Shape",
+  "dim_color": "Color",
+  "dim_letra": "Letter",
+  "thTarget": "Target",
+  "thAnswer": "Answer",
+  "thTime": "Time",
+  "gControl": "Control sessions don't count toward passing a level.",
+  "gEarly": "The session ended early, so it doesn't count toward passing a level.",
+  "gPassed": "✓ Level passed!",
+  "gUnlock": "Level {n} is unlocked: {name}.",
+  "gRepeat": "<b>Repeat the level.</b> To pass you need {need} or more hits out of {n}; this time you had {h}.",
+  "nextBtn": "Level {n}: {name} →",
+  "vFew": "Few trials so far: with more trials the percentage is steadier.",
+  "vAbove": "Above chance: a result this good or better happens by chance {odds}.",
+  "vLess1000": "less than 1 in 1000 times",
+  "vApprox": "about 1 in {n} times",
+  "vWithin": "Within what chance would give.",
+  "rowShow": "Target visible",
+  "rowControl": "Control",
+  "total": "total",
+  "thGroup": "Group",
+  "thTrials": "Trials",
+  "thHits": "Hits",
+  "thChance": "Chance",
+  "thDate": "Date",
+  "thLevel": "Level",
+  "pHintTable": "<b>p</b> = probability of getting this many hits or more by pure luck. Below 0.05 counts as significant.",
+  "approx": " * approximate (mixes levels with different numbers of options).",
+  "allLevels": "All levels ({n} trials, {pct}, chance {c}):",
+  "noTrialsYet": "No trials yet.",
+  "pillControl": "control",
+  "pillIncomplete": "incomplete",
+  "noSessions": "No sessions yet.",
+  "evoEmpty": "Your progress will show here once you complete a session.",
+  "evoChance": "chance {c}",
+  "evoGoal": "goal {g}",
+  "evoTip": "Session {i} · {date}",
+  "evoTipPassed": " · level passed",
+  "evoTipIncomplete": " · incomplete",
+  "trend": "First {h} sessions: <b>{a}</b> · Last {h}: <b>{b}</b> · Chance: {c}",
+  "evoAria": "Hit rate per session in level {n}",
+  "evoHint": "Each dot is a session (horizontal axis: session number). Hover over or tap a dot for details. ✓ = level passed.",
+  "askOther": "Name of the other person:",
+  "askRename": "New name:",
+  "confirmDel": "Delete {name} and all their results? This can't be undone.",
+  "confirmReset": "Delete all of {name}'s history? This also locks the levels again. This can't be undone."
+ }
+},
+"de": {
+ "name": "Deutsch",
+ "locale": "de-DE",
+ "dec": ",",
+ "pct": " %",
+ "times": "und",
+ "levelSay": "Stufe {n}: {name}.",
+ "speech": {
+  "ready": "Setz die Augenmaske auf. Wenn du bereit bist, drück die Leertaste oder tippe auf den Bildschirm.",
+  "options": "Optionen:",
+  "begin": "Los geht's.",
+  "yes": "Ja,",
+  "no": "Nein, es war",
+  "part_forma": "Die Form stimmte.",
+  "part_color": "Die Farbe stimmte.",
+  "part_letra": "Der Buchstabe stimmte.",
+  "end": "Sitzung beendet.",
+  "novoice": "Die Spracherkennung ist nicht verfügbar. Nutze die Tastatur oder tippe auf den Bildschirm.",
+  "hitsOf": "Treffer von",
+  "hitOf": "Treffer von",
+  "passed": "Stufe bestanden.",
+  "repeat": "Wiederhole die Stufe.",
+  "few": "Noch wenige Durchgänge.",
+  "above": "Über dem Zufall.",
+  "within": "Im Rahmen des Zufalls."
+ },
+ "items": {
+  "blanco": {
+   "n": "weiß",
+   "w": [
+    "weiß",
+    "weiss",
+    "weis",
+    "weiße",
+    "weißer",
+    "weißes"
+   ]
+  },
+  "negro": {
+   "n": "schwarz",
+   "w": [
+    "schwarz",
+    "schwarze",
+    "schwarzer",
+    "schwarzes"
+   ]
+  },
+  "rojo": {
+   "n": "rot",
+   "w": [
+    "rot",
+    "rote",
+    "roter",
+    "rotes",
+    "roten"
+   ]
+  },
+  "azul": {
+   "n": "blau",
+   "w": [
+    "blau",
+    "blaue",
+    "blauer",
+    "blaues",
+    "blauen"
+   ]
+  },
+  "verde": {
+   "n": "grün",
+   "w": [
+    "grün",
+    "grüne",
+    "grüner",
+    "grünes",
+    "grünen"
+   ]
+  },
+  "amarillo": {
+   "n": "gelb",
+   "w": [
+    "gelb",
+    "gelbe",
+    "gelber",
+    "gelbes",
+    "gelben"
+   ]
+  },
+  "naranja": {
+   "n": "orange",
+   "w": [
+    "orange",
+    "oranger",
+    "orangene",
+    "orangener",
+    "orangenes",
+    "orangen"
+   ]
+  },
+  "morado": {
+   "n": "lila",
+   "w": [
+    "lila",
+    "violett",
+    "violette",
+    "violetter",
+    "violettes",
+    "purpur"
+   ]
+  },
+  "circulo": {
+   "n": "Kreis",
+   "w": [
+    "kreis",
+    "rund",
+    "runde",
+    "runder"
+   ]
+  },
+  "cruz": {
+   "n": "Kreuz",
+   "w": [
+    "kreuz",
+    "plus"
+   ]
+  },
+  "ondas": {
+   "n": "Wellen",
+   "w": [
+    "wellen",
+    "welle",
+    "wellenlinien",
+    "linien"
+   ]
+  },
+  "cuadrado": {
+   "n": "Quadrat",
+   "w": [
+    "quadrat",
+    "viereck"
+   ]
+  },
+  "estrella": {
+   "n": "Stern",
+   "w": [
+    "stern"
+   ]
+  },
+  "circulo-rojo": {
+   "n": "roter Kreis"
+  },
+  "circulo-azul": {
+   "n": "blauer Kreis"
+  },
+  "cruz-rojo": {
+   "n": "rotes Kreuz"
+  },
+  "cruz-azul": {
+   "n": "blaues Kreuz"
+  },
+  "ondas-rojo": {
+   "n": "rote Wellen"
+  },
+  "ondas-azul": {
+   "n": "blaue Wellen"
+  },
+  "A": {
+   "n": "A",
+   "w": [
+    "a",
+    "ah"
+   ]
+  },
+  "O": {
+   "n": "O",
+   "w": [
+    "o",
+    "oh"
+   ]
+  },
+  "T": {
+   "n": "T",
+   "s": "Te",
+   "w": [
+    "t",
+    "te",
+    "tee"
+   ]
+  },
+  "X": {
+   "n": "X",
+   "s": "Iks",
+   "w": [
+    "x",
+    "iks",
+    "ix"
+   ]
+  },
+  "O-rojo": {
+   "n": "rotes O"
+  },
+  "O-azul": {
+   "n": "blaues O"
+  },
+  "X-rojo": {
+   "n": "rotes X",
+   "s": "rotes Iks"
+  },
+  "X-azul": {
+   "n": "blaues X",
+   "s": "blaues Iks"
+  }
+ },
+ "words": {
+  "TAG": {
+   "s": "Tag",
+   "w": [
+    "tag"
+   ]
+  },
+  "OHR": {
+   "s": "Ohr",
+   "w": [
+    "ohr",
+    "ohren"
+   ]
+  },
+  "HUT": {
+   "s": "Hut",
+   "w": [
+    "hut"
+   ]
+  },
+  "EIS": {
+   "s": "Eis",
+   "w": [
+    "eis"
+   ]
+  }
+ },
+ "numbers": [
+  [
+   "1",
+   "eins",
+   "ein",
+   "eine"
+  ],
+  [
+   "2",
+   "zwei",
+   "zwo"
+  ],
+  [
+   "3",
+   "drei"
+  ],
+  [
+   "4",
+   "vier"
+  ],
+  [
+   "5",
+   "fünf"
+  ],
+  [
+   "6",
+   "sechs"
+  ]
+ ],
+ "groups": {
+  "colors": "Farben",
+  "zener": "Formen (Zener-Karten)",
+  "zc": "Formen und Farben",
+  "letters": "Buchstaben",
+  "lc": "Buchstaben und Farben",
+  "words": "Wörter"
+ },
+ "levels": {
+  "bn": {
+   "name": "Weiß oder Schwarz",
+   "note": "Maximaler Kontrast. Die Stufe für den Anfang."
+  },
+  "c2": {
+   "name": "2 Farben"
+  },
+  "c3": {
+   "name": "3 Farben"
+  },
+  "c4": {
+   "name": "4 Farben"
+  },
+  "c6": {
+   "name": "6 Farben",
+   "note": "Bei 6 Optionen ist Antworten per Sprache am bequemsten."
+  },
+  "z2": {
+   "name": "2 Zener-Symbole",
+   "note": "Symbole der Zener-Karten, weiß auf schwarz und alle mit derselben Fläche."
+  },
+  "z3": {
+   "name": "3 Zener-Symbole"
+  },
+  "z5": {
+   "name": "5 Zener-Karten",
+   "note": "Das vollständige Zener-Deck, wie in den klassischen Experimenten: Der Zufall liegt bei 1 von 5 (20 %)."
+  },
+  "zc4": {
+   "name": "2 Zener × 2 Farben",
+   "note": "Beides muss stimmen. Die App zählt auch getrennt, ob Form oder Farbe stimmte."
+  },
+  "zc6": {
+   "name": "3 Zener × 2 Farben"
+  },
+  "l2": {
+   "name": "2 Buchstaben",
+   "note": "Du kannst auch mit der Taste des Buchstabens antworten."
+  },
+  "l4": {
+   "name": "4 Buchstaben"
+  },
+  "lc4": {
+   "name": "2 Buchstaben × 2 Farben"
+  },
+  "p2": {
+   "name": "2 Wörter",
+   "note": "Kurze Wörter mit 3 Buchstaben. Antworten per Sprache funktioniert hier sehr gut."
+  },
+  "p4": {
+   "name": "4 Wörter"
+  }
+ },
+ "ui": {
+  "app": "Sehen ohne Augen",
+  "langLabel": "Sprache",
+  "tagline": "Übe allein mit verbundenen Augen und prüfe mit Zahlen, ob du öfter triffst, als der Zufall ergeben würde.",
+  "startHint": "Beginne mit Stufe 1: Die nächste wird freigeschaltet, wenn du die aktuelle bestehst.",
+  "askName": "Wie heißt du?",
+  "nameHint": "Deine Ergebnisse werden unter deinem Namen nur in diesem Browser gespeichert, damit du deine Entwicklung sehen kannst. Wenn mehrere Personen dieses Gerät nutzen, kann jede ihren eigenen Namen haben.",
+  "namePh": "Dein Name",
+  "start": "Starten",
+  "person": "Person",
+  "pNew": "+ Weitere Person",
+  "pRen": "Umbenennen",
+  "pDel": "Person löschen",
+  "pHint": "Jede Person hat ihre eigenen Stufen und Ergebnisse, nur in diesem Browser gespeichert.",
+  "level": "Stufe",
+  "session": "Sitzung",
+  "trialsLabel": "Durchgänge (vorher festlegen)",
+  "screen": "Bildschirm",
+  "modeShow": "Ziel anzeigen",
+  "modeControl": "Kontrolle: nichts anzeigen",
+  "controlHint": "In einer Kontrollsitzung zeigt der Bildschirm kein Ziel, und du kannst nur raten. So siehst du zum Vergleich, wie Zufall aussieht. Sie zählt nicht für den Stufenaufstieg.",
+  "gate": "Nächste Stufe erst nach Bestehen",
+  "bar": "Anforderung zum Bestehen einer Stufe",
+  "bar05": "Normal (5 %)",
+  "bar01": "Hoch (1 %)",
+  "bar001": "Sehr hoch (0,1 %)",
+  "barHint": "Eine Stufe ist bestanden mit einer vollständigen Sitzung von 20 oder mehr Durchgängen, deren Ergebnis höchstens mit dieser Wahrscheinlichkeit durch reinen Zufall zustande kommt.",
+  "fb": "Nach jedem Durchgang sagen, ob es ein Treffer war",
+  "eq": "Farben mit gleicher Helligkeit",
+  "eqHint": "Alle Farben mit derselben Leuchtdichte.",
+  "voice": "Per Sprache antworten",
+  "voiceNo": "Dieser Browser erkennt keine Sprache. Versuche es mit Chrome oder Safari.",
+  "voiceHint": "Nutzt die Spracherkennung des Browsers (braucht evtl. Internet und fragt nach dem Mikrofon).",
+  "howTitle": "So antwortest du mit verbundenen Augen",
+  "howKeys": "<b>Tastatur:</b> Tasten <kbd>1</kbd> bis <kbd>{k}</kbd>{letters}. <kbd>R</kbd> wiederholt die Optionen. <kbd>Esc</kbd> beendet.",
+  "howLetters": " oder die Buchstaben {keys}",
+  "howTouch": "<b>Touchscreen:</b> Tippe auf den Bereich der Antwort (siehe Skizze). Halte den Finger 2 Sekunden lang, um zu beenden.",
+  "howVoice": "<b>Sprache:</b> Sag den Namen („rot“, „blaues Kreuz“, „Tag“ …) oder die Nummer der Option.",
+  "howHint": "Jedes Mal, wenn ein Ziel erscheint, ertönt ein Piepton. Vor dem Start liest die App die Optionen vor.",
+  "tipsTitle": "Tipps für die Sitzungen",
+  "tip1": "<b>Blickdichte Augenmaske</b>, die kein Licht durchlässt. Wenn du willst, kannst du den Bildschirm auch unter ein Tuch oder in eine Kiste legen und nur die Hände hineinstecken.",
+  "tip2": "<b>Lege die Zahl der Durchgänge vor dem Start fest.</b> Die App speichert alle Durchgänge, auch die von Sitzungen, die du nicht beendest.",
+  "tip3": "<b>Schau auf die Gesamtsumme</b> jeder Stufe: Mit mehr Durchgängen ist der Prozentsatz stabiler als in einer einzelnen Sitzung.",
+  "evoTitle": "Deine Entwicklung",
+  "totalsTitle": "Gesamtergebnisse",
+  "histTitle": "Sitzungsverlauf",
+  "export": "Durchgänge exportieren (CSV)",
+  "reset": "Verlauf löschen",
+  "resTitle": "Ergebnis der Sitzung",
+  "trials": "Durchgänge",
+  "again": "Stufe wiederholen",
+  "back": "Zurück",
+  "levelN": "Stufe {n}: {name}",
+  "stageReady": "Setz die Augenmaske auf.<br>Wenn du bereit bist, drück die Leertaste oder tippe auf den Bildschirm.",
+  "stageEnd": "Esc oder 2 s gedrückt halten zum Beenden.",
+  "optionsText": "Optionen: {list}.",
+  "locked": "🔒 Gesperrt",
+  "passed": "✓ Bestanden",
+  "passedLow": "✓ bestanden",
+  "lvlStat": "{pct} bei {n} (Zufall {c})",
+  "chanceCap": "Zufall {c}",
+  "gateLine": "Zum Bestehen: <b>{need} Treffer oder mehr von {n}</b> ({pct}; Zufall: {c}). Durch bloßes Raten passiert das in weniger als {bar} Fällen.",
+  "odds": "1 von {n}",
+  "modeShowShort": "Ziel sichtbar",
+  "modeControlShort": "Kontrolle (ohne Ziel)",
+  "endedEarly": "vorzeitig beendet ({d} von {n})",
+  "xOfY": "{a} von {b}",
+  "detail": "Treffer: <b>{pct}</b> · Zufall: {c} (etwa {e} Treffer erwartet)<br>Wahrscheinlichkeit, durch reinen Zufall so viele oder mehr Treffer zu erzielen: <b>{p}</b>",
+  "needHint": "Bei {n} Durchgängen bräuchte es {need} Treffer oder mehr, damit es signifikant ist (p &lt; 0,05).",
+  "noTrials": "Keine Durchgänge.",
+  "separately": "Einzeln:",
+  "dimLine": "{dim}: {h} von {n} ({pct}, Zufall {c}) · p {p}",
+  "dim_forma": "Form",
+  "dim_color": "Farbe",
+  "dim_letra": "Buchstabe",
+  "thTarget": "Ziel",
+  "thAnswer": "Antwort",
+  "thTime": "Zeit",
+  "gControl": "Kontrollsitzungen zählen nicht für den Stufenaufstieg.",
+  "gEarly": "Die Sitzung wurde vorzeitig beendet und zählt daher nicht für den Stufenaufstieg.",
+  "gPassed": "✓ Stufe bestanden!",
+  "gUnlock": "Stufe {n} ist freigeschaltet: {name}.",
+  "gRepeat": "<b>Wiederhole die Stufe.</b> Zum Bestehen brauchst du {need} Treffer oder mehr von {n}; diesmal waren es {h}.",
+  "nextBtn": "Stufe {n}: {name} →",
+  "vFew": "Noch wenige Durchgänge: Mit mehr Durchgängen ist der Prozentsatz stabiler.",
+  "vAbove": "Über dem Zufall: Ein solches oder besseres Ergebnis entsteht durch Zufall {odds}.",
+  "vLess1000": "in weniger als 1 von 1000 Fällen",
+  "vApprox": "in etwa 1 von {n} Fällen",
+  "vWithin": "Im Rahmen dessen, was der Zufall ergibt.",
+  "rowShow": "Ziel sichtbar",
+  "rowControl": "Kontrolle",
+  "total": "gesamt",
+  "thGroup": "Gruppe",
+  "thTrials": "Durchgänge",
+  "thHits": "Treffer",
+  "thChance": "Zufall",
+  "thDate": "Datum",
+  "thLevel": "Stufe",
+  "pHintTable": "<b>p</b> = Wahrscheinlichkeit, durch reinen Zufall so viele oder mehr Treffer zu erzielen. Unter 0,05 gilt als signifikant.",
+  "approx": " * Näherung (mischt Stufen mit unterschiedlich vielen Optionen).",
+  "allLevels": "Alle Stufen ({n} Durchgänge, {pct}, Zufall {c}):",
+  "noTrialsYet": "Noch keine Durchgänge.",
+  "pillControl": "Kontrolle",
+  "pillIncomplete": "unvollständig",
+  "noSessions": "Noch keine Sitzungen.",
+  "evoEmpty": "Hier siehst du deine Entwicklung, sobald du eine Sitzung abgeschlossen hast.",
+  "evoChance": "Zufall {c}",
+  "evoGoal": "Ziel {g}",
+  "evoTip": "Sitzung {i} · {date}",
+  "evoTipPassed": " · Stufe bestanden",
+  "evoTipIncomplete": " · unvollständig",
+  "trend": "Erste {h} Sitzungen: <b>{a}</b> · Letzte {h}: <b>{b}</b> · Zufall: {c}",
+  "evoAria": "Trefferquote pro Sitzung in Stufe {n}",
+  "evoHint": "Jeder Punkt ist eine Sitzung (waagerechte Achse: Nummer der Sitzung). Fahre mit der Maus über einen Punkt oder tippe darauf für Details. ✓ = Stufe bestanden.",
+  "askOther": "Name der weiteren Person:",
+  "askRename": "Neuer Name:",
+  "confirmDel": "{name} und alle Ergebnisse löschen? Das lässt sich nicht rückgängig machen.",
+  "confirmReset": "Den gesamten Verlauf von {name} löschen? Die Stufen werden dabei wieder gesperrt. Das lässt sich nicht rückgängig machen."
+ }
+},
+"pt": {
+ "name": "Português (Brasil)",
+ "locale": "pt-BR",
+ "dec": ",",
+ "pct": "%",
+ "times": "e",
+ "levelSay": "Nível {n}: {name}.",
+ "speech": {
+  "ready": "Coloque a venda. Quando estiver pronto, aperte espaço ou toque na tela.",
+  "options": "Opções:",
+  "begin": "Vamos começar.",
+  "yes": "Sim,",
+  "no": "Não, era",
+  "part_forma": "Você acertou a forma.",
+  "part_color": "Você acertou a cor.",
+  "part_letra": "Você acertou a letra.",
+  "end": "Sessão encerrada.",
+  "novoice": "O reconhecimento de voz não está disponível. Use o teclado ou toque na tela.",
+  "hitsOf": "acertos de",
+  "hitOf": "acerto de",
+  "passed": "Nível superado.",
+  "repeat": "Repita o nível.",
+  "few": "Poucas tentativas ainda.",
+  "above": "Acima do acaso.",
+  "within": "Dentro do esperado pelo acaso."
+ },
+ "items": {
+  "blanco": {
+   "n": "branco",
+   "w": [
+    "branco",
+    "branca"
+   ]
+  },
+  "negro": {
+   "n": "preto",
+   "w": [
+    "preto",
+    "preta",
+    "negro"
+   ]
+  },
+  "rojo": {
+   "n": "vermelho",
+   "w": [
+    "vermelho",
+    "vermelha",
+    "vermelhas",
+    "vermelhos"
+   ]
+  },
+  "azul": {
+   "n": "azul",
+   "w": [
+    "azul",
+    "azuis"
+   ]
+  },
+  "verde": {
+   "n": "verde",
+   "w": [
+    "verde",
+    "verdes"
+   ]
+  },
+  "amarillo": {
+   "n": "amarelo",
+   "w": [
+    "amarelo",
+    "amarela",
+    "amarelas"
+   ]
+  },
+  "naranja": {
+   "n": "laranja",
+   "w": [
+    "laranja",
+    "laranjas"
+   ]
+  },
+  "morado": {
+   "n": "roxo",
+   "w": [
+    "roxo",
+    "roxa",
+    "roxas",
+    "violeta",
+    "lilás",
+    "púrpura"
+   ]
+  },
+  "circulo": {
+   "n": "círculo",
+   "w": [
+    "círculo",
+    "circular",
+    "redondo",
+    "redonda",
+    "bola"
+   ]
+  },
+  "cruz": {
+   "n": "cruz",
+   "w": [
+    "cruz",
+    "mais"
+   ]
+  },
+  "ondas": {
+   "n": "ondas",
+   "w": [
+    "ondas",
+    "onda",
+    "ondulado",
+    "ondulada",
+    "linhas"
+   ]
+  },
+  "cuadrado": {
+   "n": "quadrado",
+   "w": [
+    "quadrado"
+   ]
+  },
+  "estrella": {
+   "n": "estrela",
+   "w": [
+    "estrela"
+   ]
+  },
+  "circulo-rojo": {
+   "n": "círculo vermelho"
+  },
+  "circulo-azul": {
+   "n": "círculo azul"
+  },
+  "cruz-rojo": {
+   "n": "cruz vermelha"
+  },
+  "cruz-azul": {
+   "n": "cruz azul"
+  },
+  "ondas-rojo": {
+   "n": "ondas vermelhas"
+  },
+  "ondas-azul": {
+   "n": "ondas azuis"
+  },
+  "A": {
+   "n": "A",
+   "s": "á",
+   "w": [
+    "a",
+    "á"
+   ]
+  },
+  "O": {
+   "n": "O",
+   "s": "ó",
+   "w": [
+    "o",
+    "ó"
+   ]
+  },
+  "T": {
+   "n": "T",
+   "s": "tê",
+   "w": [
+    "t",
+    "tê",
+    "te"
+   ]
+  },
+  "X": {
+   "n": "X",
+   "s": "xis",
+   "w": [
+    "x",
+    "xis"
+   ]
+  },
+  "O-rojo": {
+   "n": "O vermelho",
+   "s": "ó vermelho"
+  },
+  "O-azul": {
+   "n": "O azul",
+   "s": "ó azul"
+  },
+  "X-rojo": {
+   "n": "X vermelho",
+   "s": "xis vermelho"
+  },
+  "X-azul": {
+   "n": "X azul",
+   "s": "xis azul"
+  }
+ },
+ "words": {
+  "SOL": {
+   "s": "sol",
+   "w": [
+    "sol"
+   ]
+  },
+  "MAR": {
+   "s": "mar",
+   "w": [
+    "mar"
+   ]
+  },
+  "PÃO": {
+   "s": "pão",
+   "w": [
+    "pão"
+   ]
+  },
+  "LUZ": {
+   "s": "luz",
+   "w": [
+    "luz"
+   ]
+  }
+ },
+ "numbers": [
+  [
+   "1",
+   "um",
+   "uma"
+  ],
+  [
+   "2",
+   "dois",
+   "duas"
+  ],
+  [
+   "3",
+   "três"
+  ],
+  [
+   "4",
+   "quatro"
+  ],
+  [
+   "5",
+   "cinco"
+  ],
+  [
+   "6",
+   "seis"
+  ]
+ ],
+ "groups": {
+  "colors": "Cores",
+  "zener": "Formas (cartas Zener)",
+  "zc": "Formas e cores",
+  "letters": "Letras",
+  "lc": "Letras e cores",
+  "words": "Palavras"
+ },
+ "levels": {
+  "bn": {
+   "name": "Branco ou preto",
+   "note": "Contraste máximo. O nível para começar."
+  },
+  "c2": {
+   "name": "2 cores"
+  },
+  "c3": {
+   "name": "3 cores"
+  },
+  "c4": {
+   "name": "4 cores"
+  },
+  "c6": {
+   "name": "6 cores",
+   "note": "Com 6 opções, responder falando é o mais cômodo."
+  },
+  "z2": {
+   "name": "2 símbolos Zener",
+   "note": "Símbolos das cartas Zener, brancos sobre preto e todos com a mesma área."
+  },
+  "z3": {
+   "name": "3 símbolos Zener"
+  },
+  "z5": {
+   "name": "5 cartas Zener",
+   "note": "O baralho Zener completo, como nos experimentos clássicos: o acaso é 1 em cada 5 (20%)."
+  },
+  "zc4": {
+   "name": "2 Zener × 2 cores",
+   "note": "É preciso acertar as duas coisas. O app também conta separadamente se você acertou a forma ou a cor."
+  },
+  "zc6": {
+   "name": "3 Zener × 2 cores"
+  },
+  "l2": {
+   "name": "2 letras",
+   "note": "Você pode responder apertando a própria letra no teclado."
+  },
+  "l4": {
+   "name": "4 letras"
+  },
+  "lc4": {
+   "name": "2 letras × 2 cores"
+  },
+  "p2": {
+   "name": "2 palavras",
+   "note": "Palavras curtas de 3 letras. Responder falando funciona muito bem aqui."
+  },
+  "p4": {
+   "name": "4 palavras"
+  }
+ },
+ "ui": {
+  "app": "Visão sem olhos",
+  "langLabel": "Idioma",
+  "tagline": "Pratique sozinho, de olhos vendados, e confira com números se você acerta mais do que o acaso daria.",
+  "startHint": "Comece pelo nível 1: o seguinte é desbloqueado quando você supera o atual.",
+  "askName": "Como você se chama?",
+  "nameHint": "Seus resultados são salvos com seu nome, só neste navegador, para você ver como evolui. Se várias pessoas usam este aparelho, cada uma pode ter seu nome.",
+  "namePh": "Seu nome",
+  "start": "Começar",
+  "person": "Praticante",
+  "pNew": "+ Outra pessoa",
+  "pRen": "Mudar nome",
+  "pDel": "Apagar pessoa",
+  "pHint": "Cada pessoa tem seus próprios níveis e resultados, salvos só neste navegador.",
+  "level": "Nível",
+  "session": "Sessão",
+  "trialsLabel": "Tentativas (decida antes)",
+  "screen": "Tela",
+  "modeShow": "Mostrar o alvo",
+  "modeControl": "Controle: não mostrar nada",
+  "controlHint": "Numa sessão de controle a tela não mostra o alvo e você só pode adivinhar. Serve para ver como é o acaso e comparar. Não conta para passar de nível.",
+  "gate": "Passar de nível só depois de superá-lo",
+  "bar": "Exigência para superar um nível",
+  "bar05": "Normal (5%)",
+  "bar01": "Alta (1%)",
+  "bar001": "Muito alta (0,1%)",
+  "barHint": "Um nível é superado com uma sessão completa de 20 tentativas ou mais cujo resultado tenha no máximo essa probabilidade de sair por pura sorte.",
+  "fb": "Dizer se acertei depois de cada tentativa",
+  "eq": "Cores com o mesmo brilho",
+  "eqHint": "Todas as cores com a mesma luminosidade.",
+  "voice": "Responder falando",
+  "voiceNo": "Este navegador não reconhece voz. Experimente o Chrome ou o Safari.",
+  "voiceHint": "Usa o reconhecimento de voz do navegador (pode precisar de internet e pedir permissão do microfone).",
+  "howTitle": "Como responder de olhos vendados",
+  "howKeys": "<b>Teclado:</b> teclas <kbd>1</kbd> a <kbd>{k}</kbd>{letters}. <kbd>R</kbd> repete as opções. <kbd>Esc</kbd> encerra.",
+  "howLetters": " ou as letras {keys}",
+  "howTouch": "<b>Tela sensível ao toque:</b> toque na zona da resposta (veja o desenho). Mantenha o dedo 2 segundos para encerrar.",
+  "howVoice": "<b>Voz:</b> diga o nome (“vermelho”, “cruz azul”, “sol”…) ou o número da opção.",
+  "howHint": "Cada vez que aparece um alvo soa um bipe. Antes de começar, o app lê as opções em voz alta.",
+  "tipsTitle": "Dicas para as sessões",
+  "tip1": "<b>Venda opaca</b> que não deixe passar luz. Se quiser, também pode pôr a tela debaixo de um pano ou dentro de uma caixa e enfiar só as mãos.",
+  "tip2": "<b>Decida o número de tentativas antes de começar.</b> O app salva todas as tentativas, inclusive as de sessões que você não termina.",
+  "tip3": "<b>Veja o total acumulado</b> de cada nível: com mais tentativas, a porcentagem é mais estável do que numa só sessão.",
+  "evoTitle": "Sua evolução",
+  "totalsTitle": "Resultados acumulados",
+  "histTitle": "Histórico de sessões",
+  "export": "Exportar tentativas (CSV)",
+  "reset": "Apagar histórico",
+  "resTitle": "Resultado da sessão",
+  "trials": "Tentativas",
+  "again": "Repetir nível",
+  "back": "Voltar",
+  "levelN": "Nível {n}: {name}",
+  "stageReady": "Coloque a venda.<br>Quando estiver pronto, aperte espaço ou toque na tela.",
+  "stageEnd": "Esc ou manter pressionado 2 s para encerrar.",
+  "optionsText": "Opções: {list}.",
+  "locked": "🔒 Bloqueado",
+  "passed": "✓ Superado",
+  "passedLow": "✓ superado",
+  "lvlStat": "{pct} em {n} (acaso {c})",
+  "chanceCap": "Acaso {c}",
+  "gateLine": "Para superá-lo: <b>{need} acertos ou mais de {n}</b> ({pct}; o acaso é {c}). Adivinhando, isso sai por sorte menos de {bar} vezes.",
+  "odds": "1 em cada {n}",
+  "modeShowShort": "alvo visível",
+  "modeControlShort": "controle (sem alvo)",
+  "endedEarly": "encerrada antes ({d} de {n})",
+  "xOfY": "{a} de {b}",
+  "detail": "Acertos: <b>{pct}</b> · Acaso: {c} (uns {e} acertos esperados)<br>Probabilidade de acertar tanto ou mais por pura sorte: <b>{p}</b>",
+  "needHint": "Com {n} tentativas seriam necessários {need} acertos ou mais para ser significativo (p &lt; 0,05).",
+  "noTrials": "Não houve tentativas.",
+  "separately": "Separadamente:",
+  "dimLine": "{dim}: {h} de {n} ({pct}, acaso {c}) · p {p}",
+  "dim_forma": "Forma",
+  "dim_color": "Cor",
+  "dim_letra": "Letra",
+  "thTarget": "Alvo",
+  "thAnswer": "Resposta",
+  "thTime": "Tempo",
+  "gControl": "As sessões de controle não contam para passar de nível.",
+  "gEarly": "A sessão terminou antes do tempo, então não conta para passar de nível.",
+  "gPassed": "✓ Nível superado!",
+  "gUnlock": "O nível {n} foi desbloqueado: {name}.",
+  "gRepeat": "<b>Repita o nível.</b> Para superá-lo você precisa de {need} acertos ou mais de {n}; desta vez teve {h}.",
+  "nextBtn": "Nível {n}: {name} →",
+  "vFew": "Poucas tentativas ainda: com mais tentativas a porcentagem é mais estável.",
+  "vAbove": "Acima do acaso: um resultado assim ou melhor sai por acaso {odds}.",
+  "vLess1000": "menos de 1 em cada 1000 vezes",
+  "vApprox": "aproximadamente 1 em cada {n} vezes",
+  "vWithin": "Dentro do esperado pelo acaso.",
+  "rowShow": "Alvo visível",
+  "rowControl": "Controle",
+  "total": "total",
+  "thGroup": "Grupo",
+  "thTrials": "Tentativas",
+  "thHits": "Acertos",
+  "thChance": "Acaso",
+  "thDate": "Data",
+  "thLevel": "Nível",
+  "pHintTable": "<b>p</b> = probabilidade de acertar tanto ou mais por pura sorte. Abaixo de 0,05 é considerado significativo.",
+  "approx": " * aproximado (mistura níveis com números diferentes de opções).",
+  "allLevels": "Todos os níveis ({n} tentativas, {pct}, acaso {c}):",
+  "noTrialsYet": "Ainda não há tentativas.",
+  "pillControl": "controle",
+  "pillIncomplete": "incompleta",
+  "noSessions": "Ainda não há sessões.",
+  "evoEmpty": "Aqui você verá sua evolução quando completar alguma sessão.",
+  "evoChance": "acaso {c}",
+  "evoGoal": "meta {g}",
+  "evoTip": "Sessão {i} · {date}",
+  "evoTipPassed": " · nível superado",
+  "evoTipIncomplete": " · incompleta",
+  "trend": "Primeiras {h} sessões: <b>{a}</b> · Últimas {h}: <b>{b}</b> · Acaso: {c}",
+  "evoAria": "Porcentagem de acertos por sessão no nível {n}",
+  "evoHint": "Cada ponto é uma sessão (eixo horizontal: número da sessão). Passe o mouse ou toque num ponto para ver o detalhe. ✓ = nível superado.",
+  "askOther": "Nome da outra pessoa:",
+  "askRename": "Novo nome:",
+  "confirmDel": "Apagar {name} e todos os resultados? Não dá para desfazer.",
+  "confirmReset": "Apagar todo o histórico de {name}? Isso também volta a bloquear os níveis. Não dá para desfazer."
+ }
+}
+}
+</script>
+
 <script>
 'use strict';
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+// File name of a voice clip; must match slug() in tools/make_audio.py
+const slug = s => norm(String(s)).replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+const $ = id => document.getElementById(id);
 
-// ───────── Building blocks ─────────
-// eq = colors with matched relative luminance (~0.21, same as the gray shown between trials)
-const COLOR_DEF = {
-  rojo:     { m:'rojo',     f:'roja',     fp:'rojas',     words:['rojo','roja','rojas'],                 vivid:'#ff0000', eq:'#ff0000' },
-  azul:     { m:'azul',     f:'azul',     fp:'azules',    words:['azul','azules'],                       vivid:'#0033ff', eq:'#6b6bff' },
-  verde:    { m:'verde',    f:'verde',    fp:'verdes',    words:['verde','verdes'],                      vivid:'#00c000', eq:'#009600' },
-  amarillo: { m:'amarillo', f:'amarilla', fp:'amarillas', words:['amarillo','amarilla','amarillas'],     vivid:'#ffe000', eq:'#848400' },
-  naranja:  { m:'naranja',  f:'naranja',  fp:'naranjas',  words:['naranja','naranjas'],                 vivid:'#ff8000', eq:'#c86400' },
-  morado:   { m:'morado',   f:'morada',   fp:'moradas',   words:['morado','morada','moradas','violeta','lila','purpura'], vivid:'#9000ff', eq:'#ad4dff' }
-};
-const GRAY_EQ = '#7f7f7f';
-// The five Zener card symbols. g = grammatical form for the color word (m, f, fp = feminine plural)
-const SHAPE_DEF = {
-  circulo:  { name:'círculo',  g:'m',  words:['circulo','circular','redondo','redonda'] },
-  cruz:     { name:'cruz',     g:'f',  words:['cruz','mas'] },
-  ondas:    { name:'ondas',    g:'fp', words:['ondas','onda','olas','ola','ondulado','ondulada','onduladas','lineas'] },
-  cuadrado: { name:'cuadrado', g:'m',  words:['cuadrado','cuadro'] },
-  estrella: { name:'estrella', g:'f',  words:['estrella'] }
-};
-const LETTER_DEF = {
-  A: { say:'a', words:['a'] }, O: { say:'o', words:['o'] },
-  T: { say:'te', words:['te','t'] }, X: { say:'equis', words:['equis','x'] }
-};
-
-// Every item: id, name (shown), say (spoken), match (list of word groups; all groups must be heard),
-// plus what to draw (bgHex | bg color | shape | letter | text, with optional fill color) and dims for combinations.
-const colorItem = c => ({ id:c, name:COLOR_DEF[c].m, match:[COLOR_DEF[c].words], bg:c });
-const shapeItem = (s, c) => ({
-  id: c ? `${s}-${c}` : s,
-  name: SHAPE_DEF[s].name + (c ? ' ' + COLOR_DEF[c][SHAPE_DEF[s].g] : ''),
-  match: c ? [SHAPE_DEF[s].words, COLOR_DEF[c].words] : [SHAPE_DEF[s].words],
-  shape: s, fill: c || null, dims: c ? { forma:s, color:c } : null });
-const letterItem = (l, c) => ({
-  id: c ? `${l}-${c}` : l,
-  name: l + (c ? ' ' + COLOR_DEF[c].f : ''),
-  say: LETTER_DEF[l].say + (c ? ' ' + COLOR_DEF[c].f : ''),
-  match: c ? [LETTER_DEF[l].words, COLOR_DEF[c].words] : [LETTER_DEF[l].words],
-  letter: l, fill: c || null, key: c ? null : l.toLowerCase(), dims: c ? { letra:l, color:c } : null });
-const wordItem = w => ({ id:w, name:w, say:w.toLowerCase(), match:[[norm(w)]], text:w });
-const product = (a, b, f) => a.flatMap(x => b.map(y => f(x, y)));
-
-const LEVELS = [
-  { id:'bn', group:'Colores', name:'Blanco o negro',
-    note:'Máximo contraste. El nivel para empezar.',
-    items:[ { id:'blanco', name:'blanco', match:[['blanco','blanca']], bgHex:'#ffffff' },
-            { id:'negro',  name:'negro',  match:[['negro','negra']],   bgHex:'#000000' } ] },
-  { id:'c2', group:'Colores', name:'2 colores', items:['rojo','azul'].map(colorItem) },
-  { id:'c3', group:'Colores', name:'3 colores', items:['rojo','azul','verde'].map(colorItem) },
-  { id:'c4', group:'Colores', name:'4 colores', items:['rojo','azul','verde','amarillo'].map(colorItem) },
-  { id:'c6', group:'Colores', name:'6 colores', items:['rojo','azul','verde','amarillo','naranja','morado'].map(colorItem),
-    note:'Con 6 opciones responder hablando es lo más cómodo.' },
-  { id:'z2', group:'Formas (cartas Zener)', name:'2 símbolos Zener', items:['circulo','cruz'].map(s => shapeItem(s)),
-    note:'Símbolos de las cartas Zener, blancos sobre negro y todos con la misma superficie.' },
-  { id:'z3', group:'Formas (cartas Zener)', name:'3 símbolos Zener', items:['circulo','cruz','ondas'].map(s => shapeItem(s)) },
-  { id:'z5', group:'Formas (cartas Zener)', name:'5 cartas Zener', items:['circulo','cruz','ondas','cuadrado','estrella'].map(s => shapeItem(s)),
-    note:'La baraja Zener completa, como en los experimentos clásicos: el azar es 1 de cada 5 (20 %).' },
-  { id:'zc4', group:'Formas y colores', name:'2 Zener × 2 colores', items:product(['circulo','cruz'], ['rojo','azul'], shapeItem),
-    note:'Hay que acertar las dos cosas. La app también cuenta por separado si acertaste la forma o el color.' },
-  { id:'zc6', group:'Formas y colores', name:'3 Zener × 2 colores', items:product(['circulo','cruz','ondas'], ['rojo','azul'], shapeItem) },
-  { id:'l2', group:'Letras', name:'2 letras', items:['O','X'].map(l => letterItem(l)),
-    note:'Puedes responder pulsando la propia letra en el teclado.' },
-  { id:'l4', group:'Letras', name:'4 letras', items:['A','O','T','X'].map(l => letterItem(l)) },
-  { id:'lc4', group:'Letras y colores', name:'2 letras × 2 colores', items:product(['O','X'], ['rojo','azul'], letterItem) },
-  { id:'p2', group:'Palabras', name:'2 palabras', items:['SOL','MAR'].map(wordItem),
-    note:'Palabras cortas de 3 letras. Responder hablando funciona muy bien aquí.' },
-  { id:'p4', group:'Palabras', name:'4 palabras', items:['SOL','MAR','PAN','LUZ'].map(wordItem) }
-];
-LEVELS.forEach((L, i) => { L.num = i + 1; L.k = L.items.length;
-  L.hasColor = L.items.some(it => it.bg || it.fill);
-  L.dimNames = L.items[0].dims ? Object.keys(L.items[0].dims) : []; });
-const LEVEL = Object.fromEntries(LEVELS.map(L => [L.id, L]));
-const NUM_WORDS = [['1','uno','una'],['2','dos'],['3','tres'],['4','cuatro'],['5','cinco'],['6','seis']];
-const DIM_LABEL = { forma:'Forma', color:'Color', letra:'Letra' };
-// Touch zones: columns × rows, numbered in reading order
-// With 5 options the last zone takes the whole bottom row.
-const LAYOUT = { 2:[2,1], 3:[3,1], 4:[2,2], 5:[2,3], 6:[2,3] };
-const sayOf = it => it.say || it.name;
-
-// ───────── Storage (never required for the app to work) ─────────
+// ───────── Language ─────────
+const I18N = JSON.parse($('i18n').textContent);
+const LANGS = Object.keys(I18N);
 const LS = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
+// A language chosen in the app wins; otherwise the browser's language; otherwise English
+function browserLang() {
+  for (const l of navigator.languages || [navigator.language || '']) {
+    const c = String(l).toLowerCase().split('-')[0];
+    if (I18N[c]) return c;
+  }
+  return 'en';
+}
+let lang = LS.get('vso.lang', null);
+if (!I18N[lang]) lang = browserLang();
+let T = I18N[lang];
+// t('key', {var}) → text with {var} filled in. Texts may contain trusted HTML.
+const t = (k, v = {}) => String(T.ui[k] ?? I18N.es.ui[k] ?? k).replace(/\{(\w+)\}/g, (m, x) => v[x] ?? m);
+
+// ───────── Building blocks ─────────
+// eq = colors with matched relative luminance (~0.21, same as the gray shown between trials)
+const COLOR_HEX = {
+  rojo:     { vivid:'#ff0000', eq:'#ff0000' },
+  azul:     { vivid:'#0033ff', eq:'#6b6bff' },
+  verde:    { vivid:'#00c000', eq:'#009600' },
+  amarillo: { vivid:'#ffe000', eq:'#848400' },
+  naranja:  { vivid:'#ff8000', eq:'#c86400' },
+  morado:   { vivid:'#9000ff', eq:'#ad4dff' }
+};
+const GRAY_EQ = '#7f7f7f';
+
+// Every item: id (same in every language, so results stay comparable), name (shown), say (spoken),
+// match (list of word groups; all groups must be heard), plus what to draw and dims for combinations.
+const W = id => (T.items[id].w || []).map(norm);
+const N = id => T.items[id].n, SAY = id => T.items[id].s || T.items[id].n;
+const colorItem = c => ({ id:c, name:N(c), say:SAY(c), match:[W(c)], bg:c });
+const bwItem = (id, hex) => ({ id, name:N(id), say:SAY(id), match:[W(id)], bgHex:hex });
+const shapeItem = (s, c) => { const id = c ? `${s}-${c}` : s;
+  return { id, name:N(id), say:SAY(id), match: c ? [W(s), W(c)] : [W(s)], shape:s, fill:c || null, dims: c ? { forma:s, color:c } : null }; };
+const letterItem = (l, c) => { const id = c ? `${l}-${c}` : l;
+  return { id, name:N(id), say:SAY(id), match: c ? [W(l), W(c)] : [W(l)], letter:l, fill:c || null, key: c ? null : l.toLowerCase(), dims: c ? { letra:l, color:c } : null }; };
+const wordItem = w => ({ id:w, name:w, say:T.words[w].s, match:[T.words[w].w.map(norm)], text:w });
+const product = (a, b, f) => a.flatMap(x => b.map(y => f(x, y)));
+const words = n => Object.keys(T.words).slice(0, n).map(wordItem);
+
+const LEVEL_SPEC = [
+  ['bn', 'colors', () => [bwItem('blanco', '#ffffff'), bwItem('negro', '#000000')]],
+  ['c2', 'colors', () => ['rojo','azul'].map(colorItem)],
+  ['c3', 'colors', () => ['rojo','azul','verde'].map(colorItem)],
+  ['c4', 'colors', () => ['rojo','azul','verde','amarillo'].map(colorItem)],
+  ['c6', 'colors', () => ['rojo','azul','verde','amarillo','naranja','morado'].map(colorItem)],
+  ['z2', 'zener', () => ['circulo','cruz'].map(s => shapeItem(s))],
+  ['z3', 'zener', () => ['circulo','cruz','ondas'].map(s => shapeItem(s))],
+  ['z5', 'zener', () => ['circulo','cruz','ondas','cuadrado','estrella'].map(s => shapeItem(s))],
+  ['zc4', 'zc', () => product(['circulo','cruz'], ['rojo','azul'], shapeItem)],
+  ['zc6', 'zc', () => product(['circulo','cruz','ondas'], ['rojo','azul'], shapeItem)],
+  ['l2', 'letters', () => ['O','X'].map(l => letterItem(l))],
+  ['l4', 'letters', () => ['A','O','T','X'].map(l => letterItem(l))],
+  ['lc4', 'lc', () => product(['O','X'], ['rojo','azul'], letterItem)],
+  ['p2', 'words', () => words(2)],
+  ['p4', 'words', () => words(4)]
+];
+let LEVELS = [], LEVEL = {};
+function buildLevels() {
+  LEVELS = LEVEL_SPEC.map(([id, group, items], i) => {
+    const L = { id, num: i + 1, group: T.groups[group], name: T.levels[id].name, note: T.levels[id].note || '', items: items() };
+    L.k = L.items.length;
+    L.hasColor = L.items.some(it => it.bg || it.fill);
+    L.dimNames = L.items[0].dims ? Object.keys(L.items[0].dims) : [];
+    return L;
+  });
+  LEVEL = Object.fromEntries(LEVELS.map(L => [L.id, L]));
+}
+buildLevels();
+// Touch zones: columns × rows, numbered in reading order. With 5 options the last zone takes the whole bottom row.
+const LAYOUT = { 2:[2,1], 3:[3,1], 4:[2,2], 5:[2,3], 6:[2,3] };
+const sayOf = it => it.say || it.name;
+
+// ───────── Storage (never required for the app to work) ─────────
 // Each person (profile) keeps its own trials, sessions and current level under vso.p.<id>.*
 let profiles = LS.get('vso.profiles', []);
 if (!Array.isArray(profiles)) profiles = [];
@@ -321,8 +2066,8 @@ function loadProfile(id) {
   trials = []; sessions = []; levelId = 'bn';
   if (!profile) return;
   LS.set('vso.current', profile.id);
-  const t = LS.get(pkey(profile.id, 'trials'), []), s = LS.get(pkey(profile.id, 'sessions'), []);
-  trials = Array.isArray(t) ? t.filter(x => x && LEVEL[x.level]) : [];
+  const tr = LS.get(pkey(profile.id, 'trials'), []), s = LS.get(pkey(profile.id, 'sessions'), []);
+  trials = Array.isArray(tr) ? tr.filter(x => x && LEVEL[x.level]) : [];
   sessions = Array.isArray(s) ? s.filter(x => x && LEVEL[x.level]) : [];
   if (LEVEL[profile.level]) levelId = profile.level;
 }
@@ -342,11 +2087,10 @@ function createProfile(name) {
 }
 
 // ───────── Settings ─────────
-const $ = id => document.getElementById(id);
 const S = { n:$('s-n'), mode:$('s-mode'), fb:$('s-fb'), eq:$('s-eq'), voice:$('s-voice'), gate:$('s-gate'), bar:$('s-bar') };
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 const MIN_PASS = 20; // shortest session that can pass a level
-const BAR_TEXT = { '0.05':'1 de cada 20', '0.01':'1 de cada 100', '0.001':'1 de cada 1000' };
+const BAR_N = { '0.05':20, '0.01':100, '0.001':1000 };
 (function loadSettings() {
   const s = LS.get('vso.settings', {});
   if (s && typeof s === 'object') {
@@ -358,9 +2102,7 @@ const BAR_TEXT = { '0.05':'1 de cada 20', '0.01':'1 de cada 100', '0.001':'1 de 
     if (typeof s.eq === 'boolean') S.eq.checked = s.eq;
     if (typeof s.voice === 'boolean') S.voice.checked = s.voice && !!SR;
   }
-  if (!SR) { S.voice.checked = false; S.voice.disabled = true;
-    $('hint-voice').textContent = 'Este navegador no reconoce voz. Prueba en Chrome o Safari.'; }
-  else $('hint-voice').textContent = 'Usa el reconocimiento de voz del navegador (puede necesitar internet y pedir permiso de micrófono).';
+  if (!SR) { S.voice.checked = false; S.voice.disabled = true; }
 })();
 function settings() {
   return { level:levelId, n:+S.n.value, mode:S.mode.value, fb:S.fb.checked, eq:S.eq.checked, voice:S.voice.checked && !!SR,
@@ -384,9 +2126,8 @@ function onSettings() {
   const s = settings(), L = LEVEL[s.level];
   LS.set('vso.settings', { n:s.n, mode:s.mode, fb:s.fb, eq:s.eq, voice:S.voice.checked, gate:s.gate, bar:String(s.bar) });
   $('row-eq').hidden = $('hint-eq').hidden = !L.hasColor || L.id === 'bn';
-  $('kmax').textContent = L.k;
   const keys = L.items.filter(it => it.key).map(it => `<kbd>${it.key.toUpperCase()}</kbd>`);
-  $('letterkeys').innerHTML = keys.length ? ' o las letras ' + keys.join(' ') : '';
+  $('how-keys').innerHTML = t('howKeys', { k: L.k, letters: keys.length ? t('howLetters', { keys: keys.join(' ') }) : '' });
   drawZones(L);
   renderLevels();
   renderEvo();
@@ -401,6 +2142,25 @@ function drawZones(L) {
   const spare = c * r - L.k; // the last zone stretches over unused cells
   z.innerHTML = L.items.map((it, i) => `<div${i === L.k - 1 && spare ? ` style="grid-column:span ${spare + 1}"` : ''}><span><b>${i+1}</b>${esc(it.name)}</span></div>`).join('');
 }
+
+// Static texts of the page, in the current language
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = t('app');
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  document.querySelectorAll('[data-i-ph]').forEach(el => { el.placeholder = t(el.dataset.iPh); });
+  document.querySelectorAll('.langsel').forEach(sel => {
+    sel.innerHTML = LANGS.map(l => `<option value="${l}"${l === lang ? ' selected' : ''}>${esc(I18N[l].name)}</option>`).join('');
+  });
+  $('hint-voice').textContent = SR ? t('voiceHint') : t('voiceNo');
+}
+function setLang(l) {
+  if (!I18N[l] || run) return;
+  lang = l; T = I18N[l]; LS.set('vso.lang', l);
+  pickVoice(); clipsOff = false;
+  buildLevels(); applyLang(); showApp();
+}
+document.querySelectorAll('.langsel').forEach(sel => sel.addEventListener('change', e => setLang(e.target.value)));
 
 // ───────── Randomness (crypto, unbiased) ─────────
 function randInt(k) {
@@ -419,24 +2179,70 @@ function tone(freq, ms, vol = 0.15) {
   g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + ms / 1000);
   o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + ms / 1000);
 }
-let esVoice = null;
+// Speech is a list of recorded clips (audio/<lang>/<key>.mp3, made by tools/make_audio.py) played one after another.
+// If a clip can't be played (e.g. the audio folder is missing), the rest is read by the system voice.
+const clip = (key, text, gap = 250) => ({ key, text, gap });
+const numClip = (n, gap = 150) => clip('n' + n, String(n), gap);
+const itemClip = (it, gap = 350) => clip('i_' + slug(it.id), sayOf(it), gap);
+const sClip = (k, gap = 250) => clip('s_' + k, T.speech[k], gap);
+const levelClip = L => clip('l_' + L.id, T.levelSay.replace('{n}', L.num).replace('{name}', L.name.replace('×', T.times)), 300);
+const clipUrl = key => `audio/${lang}/${key}.mp3`;
+const player = new Audio();
+let speakId = 0, clipsOff = false, stopClip = null, sysVoice = null;
+
+function playClip(c) {
+  return new Promise(res => {
+    let done = false, timer = 0;
+    const fin = ok => { if (done) return; done = true; clearTimeout(timer); player.onended = player.onerror = null; stopClip = null; res(ok); };
+    stopClip = () => fin(true);
+    player.onended = () => fin(true);
+    player.onerror = () => fin(false);
+    timer = setTimeout(() => fin(false), 10000);
+    player.src = clipUrl(c.key);
+    const p = player.play(); if (p) p.catch(() => fin(false));
+  });
+}
 function pickVoice() {
   if (!('speechSynthesis' in window)) return;
-  const vs = speechSynthesis.getVoices();
-  esVoice = vs.find(v => /^es[-_]ES/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null;
+  const vs = speechSynthesis.getVoices(), loc = T.locale.toLowerCase().replace('_', '-');
+  sysVoice = vs.find(v => v.lang.toLowerCase().replace('_', '-') === loc) || vs.find(v => v.lang.toLowerCase().startsWith(lang)) || null;
 }
 if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function say(text) {
+function sayText(text, id) {
   return new Promise(res => {
-    if (!('speechSynthesis' in window)) return res();
-    speechSynthesis.cancel();
+    if (!('speechSynthesis' in window) || id !== speakId) return res();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'es-ES'; if (esVoice) u.voice = esVoice; u.rate = 1.05;
+    u.lang = T.locale; if (sysVoice) u.voice = sysVoice; u.rate = 1.05;
     let done = false; const fin = () => { if (!done) { done = true; res(); } };
     u.onend = fin; u.onerror = fin;
     setTimeout(fin, 1500 + text.length * 90); // safety net if onend never fires
     speechSynthesis.speak(u);
   });
+}
+function hush() {
+  speakId++;
+  try { player.pause(); } catch {}
+  if (stopClip) stopClip();
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+}
+async function say(parts) {
+  hush();
+  const id = speakId;
+  parts = parts.filter(c => c && c.text);
+  for (let i = 0; i < parts.length; i++) {
+    if (id !== speakId) return;
+    if (!clipsOff) {
+      if (await playClip(parts[i])) { if (id === speakId && i < parts.length - 1) await wait(parts[i].gap); continue; }
+      if (id !== speakId) return;
+      clipsOff = true;
+    }
+    return sayText(parts.slice(i).map(c => c.text).join(' '), id);
+  }
+}
+// Warm the browser cache so the first clips of a session play without delay
+function preload(parts) {
+  if (clipsOff || !/^https?:/.test(location.protocol)) return;
+  for (const c of parts) fetch(clipUrl(c.key)).catch(() => {});
 }
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
@@ -444,15 +2250,15 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 function polyArea(p) { let a = 0; for (let i = 0; i < p.length; i++) { const [x1,y1] = p[i], [x2,y2] = p[(i+1)%p.length]; a += x1*y2 - x2*y1; } return Math.abs(a) / 2; }
 function regular(n, r, rot = -Math.PI/2, inner = null) {
   const pts = [], m = inner ? n * 2 : n;
-  for (let i = 0; i < m; i++) { const rr = inner && i % 2 ? inner * r : r, t = rot + i * 2 * Math.PI / m; pts.push([rr*Math.cos(t), rr*Math.sin(t)]); }
+  for (let i = 0; i < m; i++) { const rr = inner && i % 2 ? inner * r : r, a = rot + i * 2 * Math.PI / m; pts.push([rr*Math.cos(a), rr*Math.sin(a)]); }
   return pts;
 }
 const SHAPE_AREA = 0.8; // in a 2×2 viewBox
 const f4 = v => v.toFixed(4);
 // Each entry is fill => SVG markup, scaled so every symbol covers the same area
 const SHAPES = (() => {
-  const t = 1; // cross arm thickness before scaling
-  const cross = [[-t/2,-1.5*t],[t/2,-1.5*t],[t/2,-t/2],[1.5*t,-t/2],[1.5*t,t/2],[t/2,t/2],[t/2,1.5*t],[-t/2,1.5*t],[-t/2,t/2],[-1.5*t,t/2],[-1.5*t,-t/2],[-t/2,-t/2]];
+  const w = 1; // cross arm thickness before scaling
+  const cross = [[-w/2,-1.5*w],[w/2,-1.5*w],[w/2,-w/2],[1.5*w,-w/2],[1.5*w,w/2],[w/2,w/2],[w/2,1.5*w],[-w/2,1.5*w],[-w/2,w/2],[-1.5*w,w/2],[-1.5*w,-w/2],[-w/2,-w/2]];
   const polys = { circulo: regular(128, 1), cuadrado: regular(4, 1, Math.PI/4), estrella: regular(5, 1, -Math.PI/2, 0.45), cruz: cross };
   const out = {};
   for (const [k, p] of Object.entries(polys)) {
@@ -461,9 +2267,9 @@ const SHAPES = (() => {
     out[k] = fill => `<polygon points="${pts}" fill="${fill}"/>`;
   }
   // Three wavy lines; stroke width chosen so the lines cover the same area as the other symbols
-  const W = 1.5, amp = 0.1, N = 120, gap = 0.42, line = [];
-  for (let i = 0; i <= N; i++) line.push([-W/2 + W*i/N, amp * Math.sin(4 * Math.PI * i / N)]);
-  let len = 0; for (let i = 1; i <= N; i++) len += Math.hypot(line[i][0]-line[i-1][0], line[i][1]-line[i-1][1]);
+  const Wd = 1.5, amp = 0.1, Np = 120, gap = 0.42, line = [];
+  for (let i = 0; i <= Np; i++) line.push([-Wd/2 + Wd*i/Np, amp * Math.sin(4 * Math.PI * i / Np)]);
+  let len = 0; for (let i = 1; i <= Np; i++) len += Math.hypot(line[i][0]-line[i-1][0], line[i][1]-line[i-1][1]);
   const sw = SHAPE_AREA / (3 * len);
   const d = [-gap, 0, gap].map(dy => 'M' + line.map(([x, y]) => `${f4(x)},${f4(y + dy)}`).join(' L')).join(' ');
   out.ondas = fill => `<path d="${d}" fill="none" stroke="${fill}" stroke-width="${f4(sw)}" stroke-linecap="butt" stroke-linejoin="round"/>`;
@@ -472,7 +2278,7 @@ const SHAPES = (() => {
 
 // ───────── Drawing ─────────
 const stage = $('stage');
-const colorHex = (c, eq) => COLOR_DEF[c][eq ? 'eq' : 'vivid'];
+const colorHex = (c, eq) => COLOR_HEX[c][eq ? 'eq' : 'vivid'];
 function neutralBg(L, eq) {
   if (L.id === 'bn') return GRAY_EQ;
   return L.items[0].bg && eq ? GRAY_EQ : '#000';
@@ -497,34 +2303,38 @@ function showTarget(idx) {
   if (run.s.mode === 'control') return showNeutral();
   drawItem(run.L.items[idx], run.s.eq);
 }
-function optionsSpeech(L) {
-  return 'Opciones: ' + L.items.map((it, i) => `${i+1}, ${sayOf(it)}`).join('. ') + '.';
-}
+const optionsText = L => t('optionsText', { list: L.items.map((it, i) => `${i+1}, ${it.name}`).join('. ') });
+const optionsSpeech = L => [sClip('options', 300), ...L.items.flatMap((it, i) => [numClip(i + 1), itemClip(it)])];
+const endSession = () => finish(true); // the result screen says "Session ended" first
 
 async function startSession() {
   const s = settings(), L = LEVEL[s.level];
   try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch {}
   const sess = { id: Date.now().toString(36) + randInt(1e6).toString(36), start: new Date().toISOString(),
-    level: L.id, k: L.k, n: s.n, mode: s.mode, eq: L.hasColor ? s.eq : null, done: 0, finished: false };
+    level: L.id, k: L.k, n: s.n, mode: s.mode, eq: L.hasColor ? s.eq : null, done: 0, finished: false, lang };
   sessions.push(sess); saveAll();
   run = { s, L, sess, i: 0, phase: 'ready', target: -1, shownAt: 0, rec: null, wakeLock: null, list: [] };
   document.body.style.overflow = 'hidden';
   $('home').hidden = true; $('result').hidden = true; stage.hidden = false;
   stage.style.background = '#000';
-  stage.innerHTML = `<div class="msg">Nivel ${L.num}: ${esc(L.name)}<br><br>Ponte el antifaz.<br>Cuando estés listo, pulsa espacio o toca la pantalla.
-    <small>${esc(optionsSpeech(L))} Esc o mantener pulsado 2 s para terminar.</small></div>`;
-  try { await (stage.requestFullscreen ? stage.requestFullscreen() : stage.webkitRequestFullscreen?.()); } catch {}
+  stage.innerHTML = `<div class="msg">${esc(t('levelN', { n: L.num, name: L.name }))}<br><br>${t('stageReady')}
+    <small>${esc(optionsText(L))} ${esc(t('stageEnd'))}</small></div>`;
+  let fs = null;
+  try { fs = stage.requestFullscreen ? stage.requestFullscreen() : stage.webkitRequestFullscreen?.(); } catch {}
+  // Started inside the click so phones allow the audio
+  say([levelClip(L), sClip('ready')]);
+  preload([...optionsSpeech(L), sClip('begin'), sClip('yes'), sClip('no'), ...L.items.map(it => itemClip(it))]);
+  try { await fs; } catch {}
   try { run.wakeLock = await navigator.wakeLock?.request('screen'); } catch {}
-  say(`Nivel ${L.num}, ${L.name}. Ponte el antifaz. Cuando estés listo, pulsa espacio o toca la pantalla.`);
 }
 
 async function begin() {
   if (!run || run.phase !== 'ready') return;
   run.phase = 'intro';
   showNeutral();
-  await say(optionsSpeech(run.L) + ' Empezamos.');
+  await say([...optionsSpeech(run.L), sClip('begin')]);
   await wait(600);
-  nextTrial();
+  if (run && run.phase === 'intro') nextTrial();
 }
 
 function nextTrial() {
@@ -539,10 +2349,9 @@ function nextTrial() {
 }
 
 function partialSpeech(L, tIt, aIt) {
-  if (!tIt.dims) return '';
+  if (!tIt.dims) return null;
   const ok = L.dimNames.filter(d => tIt.dims[d] === aIt.dims[d]);
-  if (!ok.length) return '';
-  return ' Acertaste ' + (ok[0] === 'forma' || ok[0] === 'letra' ? 'la ' : 'el ') + DIM_LABEL[ok[0]].toLowerCase() + '.';
+  return ok.length ? sClip('part_' + ok[0]) : null;
 }
 
 async function answer(idx, via) {
@@ -552,14 +2361,14 @@ async function answer(idx, via) {
   stopListening();
   const L = run.L, rt = Math.round(performance.now() - run.shownAt);
   const tIt = L.items[run.target], aIt = L.items[idx], hit = idx === run.target;
-  const t = { sid: run.sess.id, t: new Date().toISOString(), level: L.id, k: L.k, mode: run.s.mode,
+  const tr = { sid: run.sess.id, t: new Date().toISOString(), level: L.id, k: L.k, mode: run.s.mode,
     target: tIt.id, answer: aIt.id, hit, via, rt };
-  trials.push(t); run.list.push(t);
+  trials.push(tr); run.list.push(tr);
   run.i++; run.sess.done = run.i; saveAll();
   showNeutral();
   if (run.s.fb) {
     tone(hit ? 880 : 300, 160);
-    await say(hit ? `Sí, ${sayOf(tIt)}.` : `No, era ${sayOf(tIt)}.` + partialSpeech(L, tIt, aIt));
+    await say(hit ? [sClip('yes', 120), itemClip(tIt)] : [sClip('no', 120), itemClip(tIt), partialSpeech(L, tIt, aIt)]);
   } else {
     tone(520, 60, 0.08);
     await wait(400);
@@ -569,28 +2378,28 @@ async function answer(idx, via) {
 }
 
 // Voice answers: every word group of an item must be heard (e.g. a shape word AND a color word)
-function matchSpeech(words, L) {
-  for (let i = 0; i < L.k; i++) if (L.items[i].match.every(g => g.some(w => words.includes(w)))) return i;
-  for (let i = 0; i < L.k; i++) if (NUM_WORDS[i].some(w => words.includes(w))) return i;
+function matchSpeech(heard, L) {
+  for (let i = 0; i < L.k; i++) if (L.items[i].match.every(g => g.some(w => heard.includes(w)))) return i;
+  for (let i = 0; i < L.k; i++) if (T.numbers[i].some(w => heard.includes(norm(w)))) return i;
   return -1;
 }
 function listen() {
   if (!run || !run.s.voice || !SR) return;
   stopListening();
   const rec = new SR();
-  rec.lang = 'es-ES'; rec.interimResults = true; rec.maxAlternatives = 3; rec.continuous = false;
+  rec.lang = T.locale; rec.interimResults = true; rec.maxAlternatives = 3; rec.continuous = false;
   rec.onresult = e => {
     if (!run) return;
     for (let r = e.resultIndex; r < e.results.length; r++)
       for (let a = 0; a < e.results[r].length; a++) {
-        const i = matchSpeech(norm(e.results[r][a].transcript).split(/[^a-z0-9]+/), run.L);
+        const i = matchSpeech(norm(e.results[r][a].transcript).split(/[^\p{L}\p{N}]+/u), run.L);
         if (i >= 0) { answer(i, 'voz'); return; }
       }
   };
   rec.onerror = e => {
     if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
       if (run) run.s.voice = false;
-      say('El reconocimiento de voz no está disponible. Usa el teclado o toca la pantalla.');
+      say([sClip('novoice')]);
     }
   };
   rec.onend = () => { if (run && run.rec === rec && run.phase === 'await' && run.s.voice) setTimeout(listen, 150); };
@@ -626,7 +2435,7 @@ stage.addEventListener('pointerdown', e => {
   e.preventDefault();
   pressAt = performance.now();
   clearTimeout(pressTimer);
-  pressTimer = setTimeout(() => { pressAt = 0; if (run) { say('Sesión terminada.'); finish(true); } }, 2000);
+  pressTimer = setTimeout(() => { pressAt = 0; if (run) endSession(); }, 2000);
 });
 stage.addEventListener('pointerup', e => {
   clearTimeout(pressTimer);
@@ -642,7 +2451,7 @@ stage.addEventListener('pointercancel', () => { clearTimeout(pressTimer); pressA
 stage.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
   if (!run || e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.key === 'Escape') { e.preventDefault(); say('Sesión terminada.'); return finish(true); }
+  if (e.key === 'Escape') { e.preventDefault(); return endSession(); }
   if (run.phase === 'ready' && (e.key === ' ' || e.key === 'Enter')) { e.preventDefault(); return begin(); }
   const key = e.key.toLowerCase();
   const byLetter = run.L.items.findIndex(it => it.key === key);
@@ -651,7 +2460,7 @@ document.addEventListener('keydown', e => {
   if (/^[1-9]$/.test(key)) { e.preventDefault(); answer(+key - 1, 'teclado'); }
 });
 // Leaving fullscreen (e.g. Esc on Mac Safari swallows the key) shouldn't trap the session
-document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && run && run.phase !== 'ready') { say('Sesión terminada.'); finish(true); } });
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && run && run.phase !== 'ready') endSession(); });
 
 // ───────── Statistics ─────────
 const lfCache = [0];
@@ -664,7 +2473,7 @@ function binomTail(k, n, p) {
   return Math.min(1, s);
 }
 function hitsNeeded(n, p, alpha = 0.05) { for (let k = 0; k <= n; k++) if (binomTail(k, n, p) <= alpha) return k; return null; }
-function erfc(x) { const t = 1/(1+0.5*Math.abs(x)); const y = t*Math.exp(-x*x-1.26551223+t*(1.00002368+t*(0.37409196+t*(0.09678418+t*(-0.18628806+t*(0.27886807+t*(-1.13520398+t*(1.48851587+t*(-0.82215223+t*0.17087277))))))))); return x >= 0 ? y : 2 - y; }
+function erfc(x) { const u = 1/(1+0.5*Math.abs(x)); const y = u*Math.exp(-x*x-1.26551223+u*(1.00002368+u*(0.37409196+u*(0.09678418+u*(-0.18628806+u*(0.27886807+u*(-1.13520398+u*(1.48851587+u*(-0.82215223+u*0.17087277))))))))); return x >= 0 ? y : 2 - y; }
 // hits = how many were right; chances = per-trial probability of a lucky hit
 function stats(hits, chances) {
   const n = chances.length, expect = chances.reduce((a, p) => a + p, 0);
@@ -675,131 +2484,133 @@ function stats(hits, chances) {
   }
   return { n, hits, expect, chance: n ? expect/n : 0, p, approx };
 }
-const groupStats = list => stats(list.filter(t => t.hit).length, list.map(t => 1/t.k));
+const groupStats = list => stats(list.filter(x => x.hit).length, list.map(x => 1/x.k));
 // Partial score on one dimension (e.g. only the color) for combination levels
 function dimStats(list, L, dim) {
   const by = Object.fromEntries(L.items.map(it => [it.id, it]));
   const values = new Set(L.items.map(it => it.dims[dim]));
-  const hits = list.filter(t => by[t.target] && by[t.answer] && by[t.target].dims[dim] === by[t.answer].dims[dim]).length;
+  const hits = list.filter(x => by[x.target] && by[x.answer] && by[x.target].dims[dim] === by[x.answer].dims[dim]).length;
   return stats(hits, list.map(() => 1/values.size));
 }
-const pct = x => (100*x).toFixed(0) + ' %';
-const fmtP = p => p < 0.001 ? '< 0,001' : p.toFixed(3).replace('.', ',');
+const pct = x => (100*x).toFixed(0) + T.pct;
+const dec = s => s.replace('.', T.dec);
+const fmtP = p => p < 0.001 ? '< ' + dec('0.001') : dec(p.toFixed(3));
 // Plain statistical summary, no interpretation
+const verdictKey = st => st.n < 10 ? 'few' : st.p < 0.05 ? 'above' : 'within';
 function verdict(st) {
-  if (st.n < 10) return 'Pocos ensayos todavía: con más ensayos el porcentaje es más estable.';
-  if (st.p < 0.05) {
-    const odds = Math.round(1 / st.p);
-    return `Por encima del azar: un resultado así o mejor sale por azar ${odds >= 1000 ? 'menos de 1 de cada 1000' : `aproximadamente 1 de cada ${odds}`} veces.`;
-  }
-  return 'Dentro de lo esperable por azar.';
+  const k = verdictKey(st);
+  if (k === 'few') return t('vFew');
+  if (k === 'within') return t('vWithin');
+  const odds = Math.round(1 / st.p);
+  return t('vAbove', { odds: odds >= 1000 ? t('vLess1000') : t('vApprox', { n: odds }) });
 }
 
 // ───────── Views ─────────
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// Items from another language's word level aren't in the current list; their id is the word itself
 const nameOf = (lvl, id) => (LEVEL[lvl]?.items.find(i => i.id === id) || {}).name || id;
-const fmtDate = iso => { try { return new Date(iso).toLocaleString('es-ES', { dateStyle:'short', timeStyle:'short' }); } catch { return iso; } };
+const fmtDate = iso => { try { return new Date(iso).toLocaleString(T.locale, { dateStyle:'short', timeStyle:'short' }); } catch { return iso; } };
+const levelLabel = L => t('levelN', { n: L.num, name: L.name });
 
 function swatches(L) {
-  const cols = [...new Set(L.items.map(it => it.bgHex || (it.bg && COLOR_DEF[it.bg].vivid) || (it.fill && COLOR_DEF[it.fill].vivid)).filter(Boolean))];
+  const cols = [...new Set(L.items.map(it => it.bgHex || (it.bg && COLOR_HEX[it.bg].vivid) || (it.fill && COLOR_HEX[it.fill].vivid)).filter(Boolean))];
   return cols.length ? `<span class="swatches">${cols.map(c => `<i style="background:${c}"></i>`).join('')}</span>` : '';
 }
 function renderLevels() {
   let html = '', group = '';
   for (const L of LEVELS) {
     if (L.group !== group) { if (group) html += '</div>'; group = L.group; html += `<h3>${esc(group)}</h3><div class="levels">`; }
-    const mine = trials.filter(t => t.level === L.id && t.mode === 'show');
+    const mine = trials.filter(x => x.level === L.id && x.mode === 'show');
     const st = mine.length ? groupStats(mine) : null;
     const locked = isLocked(L);
-    const sub = locked ? '🔒 Bloqueado'
-      : (isPassed(L) ? '<span class="done">✓ Superado</span> · ' : '') + (st ? `${pct(st.hits/st.n)} en ${st.n} (azar ${pct(1/L.k)})` : `Azar ${pct(1/L.k)}`);
+    const sub = locked ? t('locked')
+      : (isPassed(L) ? `<span class="done">${t('passed')}</span> · ` : '') + (st ? t('lvlStat', { pct: pct(st.hits/st.n), n: st.n, c: pct(1/L.k) }) : t('chanceCap', { c: pct(1/L.k) }));
     html += `<button class="lvl${L.id === levelId ? ' on' : ''}${locked ? ' locked' : ''}" data-level="${L.id}"${locked ? ' disabled' : ''}><span class="n">${L.num}</span>
       <span><span class="t">${esc(L.name)}</span><br><span class="s">${sub}</span>${locked ? '' : swatches(L)}</span></button>`;
   }
   $('levels').innerHTML = html + '</div>';
   const L = LEVEL[levelId], n = +S.n.value, bar = +S.bar.value;
   const need = hitsNeeded(n, 1/L.k, bar);
-  $('lvlinfo').innerHTML = `<b>Nivel ${L.num}: ${esc(L.name)}</b>${isPassed(L) ? ' <span class="done">✓ superado</span>' : ''}<br>Opciones: ${L.items.map(it => esc(it.name)).join(', ')}.` +
-    (S.gate.checked ? `<br>Para superarlo: <b>${need ?? '—'} aciertos o más de ${n}</b> (${need ? pct(need/n) : '—'}; el azar es ${pct(1/L.k)}). Adivinando, eso sale por suerte menos de ${BAR_TEXT[S.bar.value]} veces.` : '') +
+  $('lvlinfo').innerHTML = `<b>${esc(levelLabel(L))}</b>${isPassed(L) ? ` <span class="done">${t('passedLow')}</span>` : ''}<br>${esc(t('optionsText', { list: L.items.map(it => it.name).join(', ') }))}` +
+    (S.gate.checked ? '<br>' + t('gateLine', { need: need ?? '—', n, pct: need ? pct(need/n) : '—', c: pct(1/L.k), bar: t('odds', { n: BAR_N[S.bar.value] }) }) : '') +
     (L.note ? `<br><span class="hint">${esc(L.note)}</span>` : '');
 }
 $('levels').addEventListener('click', e => { const b = e.target.closest('[data-level]'); if (b) setLevel(b.dataset.level); });
 
 function showResult(sess, list, early) {
   const L = LEVEL[sess.level], st = groupStats(list);
-  $('r-sub').textContent = `Nivel ${L.num}: ${L.name} · ${sess.mode === 'control' ? 'control (sin objetivo)' : 'objetivo visible'}` +
-    (early ? ` · terminada antes (${list.length} de ${sess.n})` : '');
-  $('r-big').textContent = `${st.hits} de ${st.n}`;
+  $('r-sub').textContent = `${levelLabel(L)} · ${sess.mode === 'control' ? t('modeControlShort') : t('modeShowShort')}` +
+    (early ? ' · ' + t('endedEarly', { d: list.length, n: sess.n }) : '');
+  $('r-big').textContent = t('xOfY', { a: st.hits, b: st.n });
   const need = hitsNeeded(sess.n, 1/L.k);
-  $('r-detail').innerHTML = st.n ? `Aciertos: <b>${pct(st.hits/st.n)}</b> · Azar: ${pct(1/L.k)} (unos ${st.expect.toFixed(1)} aciertos esperados)<br>
-    Probabilidad de acertar tanto o más por pura suerte: <b>${fmtP(st.p)}</b>` +
-    (need !== null ? `<br><span class="hint">Con ${sess.n} ensayos harían falta ${need} aciertos o más para que sea significativo (p &lt; 0,05).</span>` : '') : 'No hubo ensayos.';
-  $('r-dims').innerHTML = st.n && L.dimNames.length ? '<p style="margin:10px 0 0">Por separado:</p><ul>' + L.dimNames.map(d => {
+  $('r-detail').innerHTML = st.n ? t('detail', { pct: pct(st.hits/st.n), c: pct(1/L.k), e: dec(st.expect.toFixed(1)), p: fmtP(st.p) }) +
+    (need !== null ? `<br><span class="hint">${t('needHint', { n: sess.n, need })}</span>` : '') : t('noTrials');
+  $('r-dims').innerHTML = st.n && L.dimNames.length ? `<p style="margin:10px 0 0">${t('separately')}</p><ul>` + L.dimNames.map(d => {
     const ds = dimStats(list, L, d);
-    return `<li>${DIM_LABEL[d]}: ${ds.hits} de ${ds.n} (${pct(ds.hits/ds.n)}, azar ${pct(ds.chance)}) · p ${fmtP(ds.p)}</li>`;
+    return `<li>${t('dimLine', { dim: t('dim_' + d), h: ds.hits, n: ds.n, pct: pct(ds.hits/ds.n), c: pct(ds.chance), p: fmtP(ds.p) })}</li>`;
   }).join('') + '</ul>' : '';
-  $('r-verdict').textContent = verdict(st, sess.mode === 'control', L);
-  $('r-trials').innerHTML = '<tr><th>#</th><th>Objetivo</th><th>Respuesta</th><th></th><th class="num">Tiempo</th></tr>' +
-    list.map((t, i) => `<tr><td>${i+1}</td><td>${esc(nameOf(t.level, t.target))}</td><td>${esc(nameOf(t.level, t.answer))}</td>
-      <td>${t.hit ? '✓' : '✗'}</td><td class="num">${(t.rt/1000).toFixed(1)} s</td></tr>`).join('');
+  $('r-verdict').textContent = verdict(st);
+  $('r-trials').innerHTML = `<tr><th>#</th><th>${t('thTarget')}</th><th>${t('thAnswer')}</th><th></th><th class="num">${t('thTime')}</th></tr>` +
+    list.map((x, i) => `<tr><td>${i+1}</td><td>${esc(nameOf(x.level, x.target))}</td><td>${esc(nameOf(x.level, x.answer))}</td>
+      <td>${x.hit ? '✓' : '✗'}</td><td class="num">${dec((x.rt/1000).toFixed(1))} s</td></tr>`).join('');
   const nextL = LEVELS[L.num];
   // Level gate
   const g = $('r-gate'), gate = S.gate.checked;
-  let gateSay = '';
+  let gateSay = null;
   g.hidden = !gate || !st.n; g.className = 'verdict';
   if (gate && st.n) {
-    const need = hitsNeeded(sess.n, 1/L.k, +S.bar.value);
-    if (sess.mode === 'control') g.textContent = 'Las sesiones de control no cuentan para pasar de nivel.';
-    else if (early) g.textContent = 'La sesión terminó antes de tiempo, así que no cuenta para pasar de nivel.';
+    const needBar = hitsNeeded(sess.n, 1/L.k, +S.bar.value);
+    if (sess.mode === 'control') g.textContent = t('gControl');
+    else if (early) g.textContent = t('gEarly');
     else if (sess.passed) {
       g.className = 'verdict pass';
-      g.innerHTML = '<b>✓ ¡Nivel superado!</b> ' + (sess.unlocked && nextL ? `Se desbloquea el nivel ${nextL.num}: ${esc(nextL.name)}.` : '');
-      gateSay = 'Nivel superado.';
+      g.innerHTML = `<b>${t('gPassed')}</b> ` + (sess.unlocked && nextL ? esc(t('gUnlock', { n: nextL.num, name: nextL.name })) : '');
+      gateSay = 'passed';
     } else {
-      g.innerHTML = `<b>Repite el nivel.</b> Para superarlo necesitas ${need ?? '—'} aciertos o más de ${sess.n}; esta vez tuviste ${st.hits}.`;
-      gateSay = 'Repite el nivel.';
+      g.innerHTML = t('gRepeat', { need: needBar ?? '—', n: sess.n, h: st.hits });
+      gateSay = 'repeat';
     }
   }
   const canNext = nextL && (!gate || nextL.num <= unlockedNum());
   $('next').hidden = !canNext;
-  if (nextL) $('next').textContent = `Nivel ${nextL.num}: ${nextL.name} →`;
+  if (nextL) $('next').textContent = t('nextBtn', { n: nextL.num, name: nextL.name });
   $('result').dataset.level = L.id;
   $('result').hidden = false;
   window.scrollTo(0, 0);
-  if (st.n) say(`${st.hits} aciertos de ${st.n}. ${gateSay || verdict(st, sess.mode === 'control', L)}`);
+  say([early ? sClip('end', 500) : null,
+    ...(st.n ? [numClip(st.hits), sClip(st.hits === 1 ? 'hitOf' : 'hitsOf', 120), numClip(st.n, 400), sClip(gateSay || verdictKey(st))] : [])]);
 }
 
 function renderHome() {
   const rows = [];
   for (const mode of ['show', 'control']) {
-    const m = trials.filter(t => t.mode === mode);
+    const m = trials.filter(x => x.mode === mode);
     if (!m.length) continue;
     const all = groupStats(m);
-    rows.push(`<tr><td><b>${mode === 'show' ? 'Objetivo visible' : 'Control'}</b> · total</td><td class="num">${all.n}</td><td class="num">${pct(all.hits/all.n)}</td><td class="num">${pct(all.chance)}</td><td class="num">${fmtP(all.p)}${all.approx ? '*' : ''}</td></tr>`);
+    rows.push(`<tr><td><b>${mode === 'show' ? t('rowShow') : t('rowControl')}</b> · ${t('total')}</td><td class="num">${all.n}</td><td class="num">${pct(all.hits/all.n)}</td><td class="num">${pct(all.chance)}</td><td class="num">${fmtP(all.p)}${all.approx ? '*' : ''}</td></tr>`);
     for (const L of LEVELS) {
-      const g = m.filter(t => t.level === L.id);
+      const g = m.filter(x => x.level === L.id);
       if (!g.length) continue;
       const st = groupStats(g);
       rows.push(`<tr><td>&nbsp;&nbsp;${L.num}. ${esc(L.name)}</td><td class="num">${st.n}</td><td class="num">${pct(st.hits/st.n)}</td><td class="num">${pct(st.chance)}</td><td class="num">${fmtP(st.p)}</td></tr>`);
     }
   }
-  // The overall verdict leaves out level 1, where light through the eyelids can explain hits
-  const fair = groupStats(trials.filter(t => t.mode === 'show'));
+  const all = groupStats(trials.filter(x => x.mode === 'show'));
   $('totals').innerHTML = rows.length
-    ? `<div class="tablewrap"><table><tr><th>Grupo</th><th class="num">Ensayos</th><th class="num">Aciertos</th><th class="num">Azar</th><th class="num">p</th></tr>${rows.join('')}</table></div>
-       <p class="hint"><b>p</b> = probabilidad de acertar tanto o más por pura suerte. Por debajo de 0,05 se considera significativo.${rows.some(r => r.includes('*')) ? ' * aproximado (mezcla niveles con distinto número de opciones).' : ''}</p>
-       ${fair.n ? `<div class="verdict"><b>Todos los niveles (${fair.n} ensayos, ${pct(fair.hits/fair.n)}, azar ${pct(fair.chance)}):</b> ${verdict(fair)}</div>` : ''}`
-    : '<p class="empty">Aún no hay ensayos.</p>';
+    ? `<div class="tablewrap"><table><tr><th>${t('thGroup')}</th><th class="num">${t('thTrials')}</th><th class="num">${t('thHits')}</th><th class="num">${t('thChance')}</th><th class="num">p</th></tr>${rows.join('')}</table></div>
+       <p class="hint">${t('pHintTable')}${rows.some(r => r.includes('*')) ? t('approx') : ''}</p>
+       ${all.n ? `<div class="verdict"><b>${t('allLevels', { n: all.n, pct: pct(all.hits/all.n), c: pct(all.chance) })}</b> ${esc(verdict(all))}</div>` : ''}`
+    : `<p class="empty">${t('noTrialsYet')}</p>`;
 
   const recent = sessions.filter(s => s.done > 0).slice(-40).reverse();
   $('history').innerHTML = recent.length
-    ? `<div class="tablewrap"><table><tr><th>Fecha</th><th>Nivel</th><th class="num">Aciertos</th><th class="num">p</th></tr>` +
+    ? `<div class="tablewrap"><table><tr><th>${t('thDate')}</th><th>${t('thLevel')}</th><th class="num">${t('thHits')}</th><th class="num">p</th></tr>` +
       recent.map(s => {
-        const L = LEVEL[s.level], st = groupStats(trials.filter(t => t.sid === s.id));
-        return `<tr><td>${esc(fmtDate(s.start))}</td><td>${L.num}. ${esc(L.name)}${s.mode === 'control' ? ' <span class="pill">control</span>' : ''}${s.finished ? '' : ' <span class="pill">incompleta</span>'}</td>
+        const L = LEVEL[s.level], st = groupStats(trials.filter(x => x.sid === s.id));
+        return `<tr><td>${esc(fmtDate(s.start))}</td><td>${L.num}. ${esc(L.name)}${s.mode === 'control' ? ` <span class="pill">${t('pillControl')}</span>` : ''}${s.finished ? '' : ` <span class="pill">${t('pillIncomplete')}</span>`}</td>
           <td class="num">${st.hits}/${st.n}</td><td class="num">${fmtP(st.p)}</td></tr>`;
       }).join('') + '</table></div>'
-    : '<p class="empty">Aún no hay sesiones.</p>';
+    : `<p class="empty">${t('noSessions')}</p>`;
   renderLevels();
   renderEvo();
 }
@@ -812,28 +2623,28 @@ function renderEvo() {
   if ((evoSeenLevel !== levelId || evoSeenCount !== sessions.length) && withData.some(L => L.id === levelId)) evoLevel = levelId;
   evoSeenLevel = levelId; evoSeenCount = sessions.length;
   const sel = $('e-lvl');
-  if (!withData.length) { sel.parentElement.hidden = true; $('evo').innerHTML = '<p class="empty">Aquí verás tu evolución cuando completes alguna sesión.</p>'; return; }
+  if (!withData.length) { sel.parentElement.hidden = true; $('evo').innerHTML = `<p class="empty">${t('evoEmpty')}</p>`; return; }
   sel.parentElement.hidden = false;
   if (!withData.some(L => L.id === evoLevel)) evoLevel = withData.some(L => L.id === levelId) ? levelId : withData[withData.length - 1].id;
   sel.innerHTML = withData.map(L => `<option value="${L.id}"${L.id === evoLevel ? ' selected' : ''}>${L.num}. ${esc(L.name)}</option>`).join('');
   const L = LEVEL[evoLevel];
   const pts = sessions.filter(s => s.level === L.id && s.mode === 'show' && s.done > 0).map(s => {
-    const st = groupStats(trials.filter(t => t.sid === s.id));
+    const st = groupStats(trials.filter(x => x.sid === s.id));
     return { s, st, rate: st.n ? st.hits / st.n : 0 };
   }).filter(p => p.st.n);
   // Drawn at the container's real width so text stays at true pixel size on phones
-  const W = Math.max(280, Math.min(640, $('evo').clientWidth || 600)), H = 220, ml = 40, mr = 66, mt = 16, mb = 30, iw = W - ml - mr, ih = H - mt - mb;
+  const Wc = Math.max(280, Math.min(640, $('evo').clientWidth || 600)), H = 220, ml = 40, mr = 66, mt = 16, mb = 30, iw = Wc - ml - mr, ih = H - mt - mb;
   const x = i => ml + (pts.length === 1 ? iw / 2 : iw * i / (pts.length - 1));
   const y = v => mt + ih * (1 - v);
   const need = hitsNeeded(+S.n.value, 1/L.k, +S.bar.value), goal = need !== null ? need / +S.n.value : null;
   let g = '';
-  for (const v of [0, .25, .5, .75, 1]) g += `<line class="grid" x1="${ml}" x2="${W - mr}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${ml - 6}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`;
+  for (const v of [0, .25, .5, .75, 1]) g += `<line class="grid" x1="${ml}" x2="${Wc - mr}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${ml - 6}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`;
   const chance = 1 / L.k;
-  g += `<line class="ref" x1="${ml}" x2="${W - mr}" y1="${y(chance)}" y2="${y(chance)}"/><text class="lab" x="${W - mr + 6}" y="${y(chance) + 4}">azar ${pct(chance)}</text>`;
-  if (S.gate.checked && goal !== null) g += `<line class="goal" x1="${ml}" x2="${W - mr}" y1="${y(goal)}" y2="${y(goal)}"/><text class="lab" x="${W - mr + 6}" y="${y(goal) + 4}">meta ${pct(goal)}</text>`;
+  g += `<line class="ref" x1="${ml}" x2="${Wc - mr}" y1="${y(chance)}" y2="${y(chance)}"/><text class="lab" x="${Wc - mr + 6}" y="${y(chance) + 4}">${esc(t('evoChance', { c: pct(chance) }))}</text>`;
+  if (S.gate.checked && goal !== null) g += `<line class="goal" x1="${ml}" x2="${Wc - mr}" y1="${y(goal)}" y2="${y(goal)}"/><text class="lab" x="${Wc - mr + 6}" y="${y(goal) + 4}">${esc(t('evoGoal', { g: pct(goal) }))}</text>`;
   if (pts.length > 1) g += `<polyline class="series" points="${pts.map((p, i) => `${x(i)},${y(p.rate)}`).join(' ')}"/>`;
   pts.forEach((p, i) => {
-    const tip = `Sesión ${i + 1} · ${fmtDate(p.s.start)}\n${p.st.hits} de ${p.st.n} (${pct(p.rate)})${p.s.passed ? ' · nivel superado' : ''}${p.s.finished ? '' : ' · incompleta'}`;
+    const tip = `${t('evoTip', { i: i + 1, date: fmtDate(p.s.start) })}\n${t('xOfY', { a: p.st.hits, b: p.st.n })} (${pct(p.rate)})${p.s.passed ? t('evoTipPassed') : ''}${p.s.finished ? '' : t('evoTipIncomplete')}`;
     g += `<g class="p"><title>${esc(tip)}</title><circle class="hitbox" cx="${x(i)}" cy="${y(p.rate)}" r="14"/><circle class="pt${p.s.passed ? ' ok' : ''}" cx="${x(i)}" cy="${y(p.rate)}" r="5"/>` +
       (p.s.passed ? `<text class="mark" x="${x(i)}" y="${y(p.rate) - 10}" text-anchor="middle">✓</text>` : '') + '</g>';
   });
@@ -844,10 +2655,10 @@ function renderEvo() {
   if (pts.length >= 4) {
     const h = Math.min(5, Math.floor(pts.length / 2));
     const agg = a => { const n = a.reduce((s, p) => s + p.st.n, 0), k = a.reduce((s, p) => s + p.st.hits, 0); return n ? k / n : 0; };
-    trend = `<p class="trend">Primeras ${h} sesiones: <b>${pct(agg(pts.slice(0, h)))}</b> · Últimas ${h}: <b>${pct(agg(pts.slice(-h)))}</b> · Azar: ${pct(chance)}</p>`;
+    trend = `<p class="trend">${t('trend', { h, a: pct(agg(pts.slice(0, h))), b: pct(agg(pts.slice(-h))), c: pct(chance) })}</p>`;
   }
-  $('evo').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Porcentaje de aciertos por sesión en el nivel ${L.num}">${g}</svg>
-    <p class="hint">Cada punto es una sesión (eje horizontal: número de sesión). Pasa el ratón o toca un punto para ver el detalle. ✓ = nivel superado.</p>${trend}`;
+  $('evo').innerHTML = `<svg viewBox="0 0 ${Wc} ${H}" role="img" aria-label="${esc(t('evoAria', { n: L.num }))}">${g}</svg>
+    <p class="hint">${t('evoHint')}</p>${trend}`;
 }
 $('e-lvl').addEventListener('change', e => { evoLevel = e.target.value; renderEvo(); });
 let evoW = 0;
@@ -871,39 +2682,40 @@ $('w-go').addEventListener('click', welcomeGo);
 $('w-name').addEventListener('keydown', e => { if (e.key === 'Enter') welcomeGo(); });
 $('p-sel').addEventListener('change', e => { loadProfile(e.target.value); evoLevel = null; showApp(); });
 $('p-new').addEventListener('click', () => {
-  const name = cleanName(prompt('Nombre de la otra persona:'));
+  const name = cleanName(prompt(t('askOther')));
   if (name) { createProfile(name); evoLevel = null; showApp(); }
 });
 $('p-ren').addEventListener('click', () => {
-  const name = cleanName(prompt('Nuevo nombre:', profile.name));
+  const name = cleanName(prompt(t('askRename'), profile.name));
   if (name) { profile.name = name; saveProfiles(); renderProfiles(); }
 });
 $('p-del').addEventListener('click', () => {
-  if (!confirm(`¿Borrar a ${profile.name} y todos sus resultados? No se puede deshacer.`)) return;
+  if (!confirm(t('confirmDel', { name: profile.name }))) return;
   try { localStorage.removeItem(pkey(profile.id, 'trials')); localStorage.removeItem(pkey(profile.id, 'sessions')); } catch {}
   profiles = profiles.filter(p => p !== profile); saveProfiles();
   loadProfile(profiles[0]?.id); evoLevel = null; showApp();
 });
 
-function goHome() { speechSynthesis?.cancel(); $('result').hidden = true; $('home').hidden = false; renderHome(); window.scrollTo(0, 0); }
+function goHome() { hush(); $('result').hidden = true; $('home').hidden = false; renderHome(); window.scrollTo(0, 0); }
 $('start').addEventListener('click', startSession);
 $('back').addEventListener('click', goHome);
-$('again').addEventListener('click', () => { speechSynthesis?.cancel(); setLevel($('result').dataset.level); startSession(); });
+$('again').addEventListener('click', () => { hush(); setLevel($('result').dataset.level); startSession(); });
 $('next').addEventListener('click', () => { const L = LEVELS[LEVEL[$('result').dataset.level].num]; if (L) setLevel(L.id); goHome(); });
 $('export').addEventListener('click', () => {
   const head = 'persona,sesion,fecha,nivel,opciones,pantalla,objetivo,respuesta,acierto,via,tiempo_ms';
   const who = '"' + profile.name.replace(/"/g, '""') + '"';
-  const lines = trials.map(t => [who, t.sid, t.t, LEVEL[t.level].num, t.k, t.mode, t.target, t.answer, t.hit ? 1 : 0, t.via, t.rt].join(','));
+  const lines = trials.map(x => [who, x.sid, x.t, LEVEL[x.level].num, x.k, x.mode, x.target, x.answer, x.hit ? 1 : 0, x.via, x.rt].join(','));
   const blob = new Blob([[head, ...lines].join('\n')], { type:'text/csv' });
-  const slug = norm(profile.name).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'persona';
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vision-sin-ojos-${slug}.csv`; a.click();
+  const name = norm(profile.name).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'persona';
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vision-sin-ojos-${name}.csv`; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 });
 $('reset').addEventListener('click', () => {
-  if (!confirm(`¿Borrar todo el historial de ${profile.name}? También vuelve a bloquear los niveles. No se puede deshacer.`)) return;
+  if (!confirm(t('confirmReset', { name: profile.name }))) return;
   trials = []; sessions = []; saveAll(); onSettings(); renderHome();
 });
 
+applyLang();
 loadProfile(LS.get('vso.current', null));
 showApp();
 </script>

@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+tools/models/
+tools/.venv/
+__pycache__/
