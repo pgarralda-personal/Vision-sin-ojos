@@ -9,7 +9,7 @@ App para practicar la "visión extraocular" (*eyeless sight*) en solitario, con 
 - **Avance por niveles:** el siguiente nivel se desbloquea al superar el actual con una sesión completa de 20 ensayos o más cuyo resultado tenga como mucho un 1 % de probabilidad de salir por suerte (exigencia configurable: 5 %, 1 % o 0,1 %). Se puede desactivar para elegir cualquier nivel.
 - **Perfiles con nombre:** cada persona tiene sus propios niveles, historial y gráfico de evolución. Se guarda solo en el navegador (`localStorage`).
 - **Respuestas sin mirar:** teclado (1–6, o la letra en los niveles de letras), zonas de la pantalla táctil o voz (reconocimiento del navegador). La app habla en español: lee las opciones y dice si acertaste.
-- **Prueba justa:** objetivos elegidos con `crypto.getRandomValues`; colores con el mismo brillo y símbolos con la misma superficie, para que la cantidad de luz no los delate; se guardan todos los ensayos, también los de sesiones a medias; sesiones de control sin objetivo.
+- **Objetivos:** elegidos al azar con `crypto.getRandomValues`; opción de colores con la misma luminosidad; símbolos con la misma superficie; se guardan todos los ensayos, también los de sesiones a medias; sesiones de control sin objetivo.
 - **Estadística:** probabilidad binomial de acertar tanto o más por suerte (p), por sesión, por nivel y acumulada; aciertos parciales (forma / color) en los niveles combinados; exportación a CSV.
 
 ## Archivos

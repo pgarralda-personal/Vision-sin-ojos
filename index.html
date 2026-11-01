@@ -151,7 +151,7 @@ input[type=text] { font:inherit; font-size:16px; padding:8px 10px; border-radius
     <p class="hint" id="hint-bar">Un nivel se supera con una sesión completa de 20 ensayos o más cuyo resultado tenga como mucho esa probabilidad de salir por pura suerte.</p>
     <div class="row"><label for="s-fb">Decirme si acerté después de cada ensayo</label><input type="checkbox" id="s-fb" checked></div>
     <div class="row" id="row-eq"><label for="s-eq">Colores con el mismo brillo</label><input type="checkbox" id="s-eq" checked></div>
-    <p class="hint" id="hint-eq">Recomendado. A través de los párpados se nota si la pantalla está más clara u oscura; así el brillo no delata el color.</p>
+    <p class="hint" id="hint-eq">Todos los colores con la misma luminosidad.</p>
     <div class="row"><label for="s-voice">Responder hablando</label><input type="checkbox" id="s-voice"></div>
     <p class="hint" id="hint-voice"></p>
     <button class="go" id="start">Empezar</button>
@@ -169,13 +169,11 @@ input[type=text] { font:inherit; font-size:16px; padding:8px 10px; border-radius
   </section>
 
   <section class="card">
-    <h2>Cómo hacer una prueba justa sin ayudante</h2>
+    <h2>Consejos para las sesiones</h2>
     <ol>
-      <li><b>Bloquea el hueco de la nariz.</b> Casi todos los antifaces dejan ver hacia abajo. Usa un antifaz opaco y tapa ese hueco con algodón o cinta, o usa gafas de natación pintadas por dentro.</li>
-      <li><b>Mejor todavía:</b> mete el móvil o la tablet en una caja o bajo una tela gruesa y mete solo las manos. Gira la cabeza hacia otro lado.</li>
-      <li><b>Decide el número de ensayos antes</b> y no pares cuando vas mal. La app guarda todos los ensayos, también los de sesiones que no terminas.</li>
-      <li><b>Un buen resultado aislado no prueba nada.</b> Por pura suerte, 1 de cada 20 sesiones sale “significativa”. Lo que cuenta es el total acumulado.</li>
-      <li><b>Si un día obtienes un resultado muy alto,</b> repítelo con condiciones más estrictas (caja, tela) antes de sacar conclusiones.</li>
+      <li><b>Antifaz opaco</b> que no deje pasar la luz. Si quieres, también puedes poner la pantalla bajo una tela o dentro de una caja y meter solo las manos.</li>
+      <li><b>Decide el número de ensayos antes de empezar.</b> La app guarda todos los ensayos, también los de sesiones que no terminas.</li>
+      <li><b>Mira el total acumulado</b> de cada nivel: con más ensayos, el porcentaje es más estable que en una sola sesión.</li>
     </ol>
   </section>
 
@@ -270,7 +268,7 @@ const product = (a, b, f) => a.flatMap(x => b.map(y => f(x, y)));
 
 const LEVELS = [
   { id:'bn', group:'Colores', name:'Blanco o negro',
-    note:'Máximo contraste, para calentar. Ojo: la diferencia de luz se nota a través de los párpados, así que este nivel no sirve como prueba.',
+    note:'Máximo contraste. El nivel para empezar.',
     items:[ { id:'blanco', name:'blanco', match:[['blanco','blanca']], bgHex:'#ffffff' },
             { id:'negro',  name:'negro',  match:[['negro','negra']],   bgHex:'#000000' } ] },
   { id:'c2', group:'Colores', name:'2 colores', items:['rojo','azul'].map(colorItem) },
@@ -279,7 +277,7 @@ const LEVELS = [
   { id:'c6', group:'Colores', name:'6 colores', items:['rojo','azul','verde','amarillo','naranja','morado'].map(colorItem),
     note:'Con 6 opciones responder hablando es lo más cómodo.' },
   { id:'z2', group:'Formas (cartas Zener)', name:'2 símbolos Zener', items:['circulo','cruz'].map(s => shapeItem(s)),
-    note:'Símbolos de las cartas Zener, blancos sobre negro y todos con la misma superficie, para que la cantidad de luz no los delate.' },
+    note:'Símbolos de las cartas Zener, blancos sobre negro y todos con la misma superficie.' },
   { id:'z3', group:'Formas (cartas Zener)', name:'3 símbolos Zener', items:['circulo','cruz','ondas'].map(s => shapeItem(s)) },
   { id:'z5', group:'Formas (cartas Zener)', name:'5 cartas Zener', items:['circulo','cruz','ondas','cuadrado','estrella'].map(s => shapeItem(s)),
     note:'La baraja Zener completa, como en los experimentos clásicos: el azar es 1 de cada 5 (20 %).' },
@@ -687,14 +685,14 @@ function dimStats(list, L, dim) {
 }
 const pct = x => (100*x).toFixed(0) + ' %';
 const fmtP = p => p < 0.001 ? '< 0,001' : p.toFixed(3).replace('.', ',');
-function verdict(st, isControl, L) {
-  if (st.n < 10) return 'Muy pocos ensayos para sacar conclusiones.';
-  if (L && L.id === 'bn' && !isControl && st.p < 0.05) return 'Por encima del azar, como es de esperar en este nivel: la luz atraviesa los párpados y el antifaz. Pasa a los niveles de colores con el mismo brillo para una prueba de verdad.';
-  if (st.p < 0.001) return isControl
-    ? 'Muy por encima del azar sin mostrar nada: es casi imposible por suerte. Revisa que nada te diera pistas.'
-    : 'Muy por encima del azar. Antes de creerlo, repite con condiciones más estrictas (pantalla dentro de una caja o bajo una tela). La causa más común es ver algo por el hueco de la nariz.';
-  if (st.p < 0.05) return 'Por encima del azar, pero un resultado así sale por pura suerte aproximadamente 1 de cada 20 veces. Repite y mira si se mantiene en el total acumulado.';
-  return 'Compatible con adivinar al azar.';
+// Plain statistical summary, no interpretation
+function verdict(st) {
+  if (st.n < 10) return 'Pocos ensayos todavía: con más ensayos el porcentaje es más estable.';
+  if (st.p < 0.05) {
+    const odds = Math.round(1 / st.p);
+    return `Por encima del azar: un resultado así o mejor sale por azar ${odds >= 1000 ? 'menos de 1 de cada 1000' : `aproximadamente 1 de cada ${odds}`} veces.`;
+  }
+  return 'Dentro de lo esperable por azar.';
 }
 
 // ───────── Views ─────────
@@ -786,11 +784,11 @@ function renderHome() {
     }
   }
   // The overall verdict leaves out level 1, where light through the eyelids can explain hits
-  const fair = groupStats(trials.filter(t => t.mode === 'show' && t.level !== 'bn'));
+  const fair = groupStats(trials.filter(t => t.mode === 'show'));
   $('totals').innerHTML = rows.length
     ? `<div class="tablewrap"><table><tr><th>Grupo</th><th class="num">Ensayos</th><th class="num">Aciertos</th><th class="num">Azar</th><th class="num">p</th></tr>${rows.join('')}</table></div>
        <p class="hint"><b>p</b> = probabilidad de acertar tanto o más por pura suerte. Por debajo de 0,05 se considera significativo.${rows.some(r => r.includes('*')) ? ' * aproximado (mezcla niveles con distinto número de opciones).' : ''}</p>
-       ${fair.n ? `<div class="verdict"><b>Todos los niveles menos el 1 (${fair.n} ensayos, ${pct(fair.hits/fair.n)}, azar ${pct(fair.chance)}):</b> ${verdict(fair, false)}</div>` : ''}`
+       ${fair.n ? `<div class="verdict"><b>Todos los niveles (${fair.n} ensayos, ${pct(fair.hits/fair.n)}, azar ${pct(fair.chance)}):</b> ${verdict(fair)}</div>` : ''}`
     : '<p class="empty">Aún no hay ensayos.</p>';
 
   const recent = sessions.filter(s => s.done > 0).slice(-40).reverse();
